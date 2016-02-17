@@ -11,19 +11,13 @@ var canvas,
 
 function input(event) {
 
-    switch (event.which) {
-    case 37:
-        player.moveleft();
-        break;
-    case 38:
-        player.jump();
-        break;
-    case 39:
-        player.moveright();
-        break;
-    default:
-        return;
-    }
+    if (event.which === 37) {
+        player.move(-1, event.type);     
+    } else if (event.which === 38) {
+        player.jump();    
+    } else if (event.which === 39) {
+        player.move(1, event.type);
+    } else return;
     // prevent scroll etc
     event.preventDefault();
 }
@@ -64,13 +58,14 @@ function render() {
     $(document).keydown(function (event) {
         input(event);
     });
+    
+    $(document).keyup(function (event) {
+        input(event);
+    });
 
     canvas = document.createElement('canvas');
     canvas.style.backgroundColor = "green";
     canvas.style.border = "1px solid #000";
-
-    console.log("Width " + width);
-    console.log("Height " + height);
 
     canvas.width = width;
     canvas.height = height;
