@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <script src="libraries/jquery-2.2.0.min.js"></script>
+    <style>
+        canvas {
+            display: block;
+            position: absolute;
+            margin: auto;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<script type="text/javascript">
+"use strict";
+var canvas,
+	context,
+	width,
+	height,
+	frames = 0,
+	images = [],
+    urls = [
+        "assets/cube.png"
+    ],
+
+	player = {
+
+		x: 160 - 16,
+		y: 120 - 32,
+
+        velocity: 0,
+        gravity: 0.25,
+
+        _jump: 5,
+        jumpcount: 0,
+        canjump: true,
+
+        animation: [0],
+		currentframe: 0,
+
+        jump: function() {
+
+            if (this.velocity === 0) {
+                this.canjump = true;
+                this.jumpcount = 0;
+            }
+
+            if (this.jumpcount < 2) {
+                this.jumpcount += 1;
+                this.velocity = -this._jump;
+            } else {
+                this.canjump = false;
+            }
+
+        },
+
+		update: function() {
+			frames++
+
+			// this.currentframe += frames % 5 === 0 ? 1 : 0;
+
+            // gravity
+            if (this.y <= height - (32 + this.velocity)) {
+                this.velocity += this.gravity;
+                this.y += this.velocity;
+            } else {
+                this.velocity = 0;
+            }
+
+			// sets the currentframe to 0 when it reaches the end of the animation
+			this.currentframe %= this.animation.length;
+
+			// console.log("frames: " + frames);
+
+		},
+
+        draw: function(context) {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            var n = this.animation[this.currentframe];
+
+            context.drawImage(images[n], 0, 0, 32, 32, this.x, this.y, 32, 32);
+        }
+	};
+
+function input(event) {
+
+    switch(event.which) {
+        case 37:
+            // player.moveLeft();
+            break;
+        case 38:
+            player.jump();
+            break;
+        case 39:
+            // player.moveRight();
+            break;
+        default: return;
+    }
+    // prevent scroll etc
+    event.preventDefault();
+
+
+}
+
+function main() {
+
+   	// width = window.innerWidth;
+	// height = window.innerHeight;
+    width = 320;
+    height = 480;
+
+    $(document).keydown(function (event) {
+        input(event);
+    });
+
+	canvas = document.createElement('canvas');
+    canvas.style.backgroundColor = "green";
+    canvas.style.border = "1px solid #000";
+
+    console.log("Width " + width);
+    console.log("Height " + height);
+
+	canvas.width = width;
+	canvas.height = height;
+
+	context = canvas.getContext("2d");
+
+	document.body.appendChild(canvas);
+
+	var img = new Image();
+	img.onload = function() {
+        loadImages();
+		run();
+
+	};
+	img.src = "assets/cube.png";
+
+}
+
+function loadImages() {
+    for(var i=0; i < urls.length; i++) {
+        var img = new Image();
+        img.src = urls[i];
+        images.push(img)
+    }
+}
+
+function run() {
+	var loop = function() {
+        update();
+        render();
+		window.requestAnimationFrame(loop, canvas);
+	}
+	window.requestAnimationFrame(loop, canvas);
+
+}
+
+function update() {
+    player.update();
+}
+
+function render() {
+    player.draw(context);
+}
+
+
+
+main();
+</script>
+
+
+
+</body>
+</hmtl>
