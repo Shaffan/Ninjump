@@ -1,8 +1,7 @@
-
 var
 
 
-playerS;
+    playerS;
 
 // rotation is given in degrees
 function Sprite(img, x, y, width, height, rotation) {
@@ -11,9 +10,9 @@ function Sprite(img, x, y, width, height, rotation) {
     this.y = y;
     this.width = width;
     this.height = height;
-    this.rotation = rotation ? rotation * (Math.PI/180) : 0;
+    this.rotation = rotation ? rotation * (Math.PI / 180) : 0;
 };
-Sprite.prototype.draw = function(context, x, y) {
+Sprite.prototype.draw = function (context, x, y) {
     context.save();
     context.rotate(this.rotation);
     context.drawImage(this.img, this.x, this.y, this.width, this.height, x, y, this.width, this.height);

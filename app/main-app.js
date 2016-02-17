@@ -1,34 +1,35 @@
-"use strict";
+'use strict';
 var canvas,
-	context,
-	width,
-	height,
-	frames = 0,
-	images = [],
+    context,
+    width,
+    height,
+    frames = 0,
+    images = [],
     urls = [
         "assets/cube.png"
     ];
 
 function input(event) {
 
-    switch(event.which) {
-        case 37:
-            // player.moveLeft();
-            break;
-        case 38:
-            player.jump();
-            break;
-        case 39:
-            // player.moveRight();
-            break;
-        default: return;
+    switch (event.which) {
+    case 37:
+        // player.moveLeft();
+        break;
+    case 38:
+        player.jump();
+        break;
+    case 39:
+        // player.moveRight();
+        break;
+    default:
+        return;
     }
     // prevent scroll etc
     event.preventDefault();
 }
 
 function loadImages() {
-    for(var i=0; i < urls.length; i++) {
+    for (var i = 0; i < urls.length; i++) {
         var img = new Image();
         img.src = urls[i];
         images.push(img)
@@ -36,12 +37,12 @@ function loadImages() {
 }
 
 function run() {
-	var loop = function() {
+    var loop = function () {
         update();
         render();
-		window.requestAnimationFrame(loop, canvas);
-	}
-	window.requestAnimationFrame(loop, canvas);
+        window.requestAnimationFrame(loop, canvas);
+    }
+    window.requestAnimationFrame(loop, canvas);
 
 }
 
@@ -55,8 +56,8 @@ function render() {
 
 (function main() {
 
-   	// width = window.innerWidth;
-	// height = window.innerHeight;
+    // width = window.innerWidth;
+    // height = window.innerHeight;
     width = 320;
     height = 480;
 
@@ -64,26 +65,26 @@ function render() {
         input(event);
     });
 
-	canvas = document.createElement('canvas');
+    canvas = document.createElement('canvas');
     canvas.style.backgroundColor = "green";
     canvas.style.border = "1px solid #000";
 
     console.log("Width " + width);
     console.log("Height " + height);
 
-	canvas.width = width;
-	canvas.height = height;
+    canvas.width = width;
+    canvas.height = height;
 
-	context = canvas.getContext("2d");
+    context = canvas.getContext("2d");
 
-	document.body.appendChild(canvas);
+    document.body.appendChild(canvas);
 
-	var img = new Image();
-	img.onload = function() {
+    var img = new Image();
+    img.onload = function () {
         loadImages();
-		run();
+        run();
 
-	};
-	img.src = "assets/cube.png";
+    };
+    img.src = "assets/cube.png";
 
 })();
