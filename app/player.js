@@ -45,7 +45,7 @@ var player = {
         
         
     },
-
+    // test
     update: function () {
         frames++
 
