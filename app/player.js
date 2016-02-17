@@ -29,6 +29,18 @@ var player = {
 
     },
 
+    moveleft: function () {
+
+        this.x -= 5;
+
+    },
+
+    moveright: function () {
+
+        this.x += 5;
+
+    },
+
     update: function () {
         frames++
 

@@ -13,13 +13,13 @@ function input(event) {
 
     switch (event.which) {
     case 37:
-        // player.moveLeft();
+        player.moveleft();
         break;
     case 38:
         player.jump();
         break;
     case 39:
-        // player.moveRight();
+        player.moveright();
         break;
     default:
         return;
