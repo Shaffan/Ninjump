@@ -1,0 +1,3 @@
+- Prevent player from moving out of the left and right of the screen
+- add platforms
+- add collision with top of platforms
