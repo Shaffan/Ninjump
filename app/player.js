@@ -12,6 +12,7 @@ var player = {
 
     moving: false,
     acceleration: 0,
+    maxspeed: 2.5,
     xvelocity: 0,
     yvelocity: 0,
 
@@ -60,6 +61,12 @@ var player = {
         }
 
         // movement
+        if (this.xvelocity > this.maxspeed) {
+            this.xvelocity = this.maxspeed;
+        } else if (this.xvelocity < -this.maxspeed) {
+            this.xvelocity = -this.maxspeed;
+        }
+
         if (!this.moving) {
             this.xvelocity = 0;
             this.acceleration = 0;
@@ -67,9 +74,6 @@ var player = {
             this.xvelocity += this.acceleration;
         }
         this.x += this.xvelocity;
-
-        // console.log("frames: " + frames);
-
     },
 
     draw: function (context) {
