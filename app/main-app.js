@@ -52,8 +52,8 @@ function render() {
 
     // width = window.innerWidth;
     // height = window.innerHeight;
-    width = 320;
-    height = 480;
+    width = 500;
+    height = 750;
 
     $(document).keydown(function (event) {
         input(event);
@@ -64,8 +64,6 @@ function render() {
     });
 
     canvas = document.createElement('canvas');
-    canvas.style.backgroundColor = "green";
-    canvas.style.border = "1px solid #000";
 
     canvas.width = width;
     canvas.height = height;

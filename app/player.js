@@ -1,18 +1,18 @@
 'use strict'
 var player = {
 
-    x: 160 - 16,
-    y: 120 - 32,
+    x: width / 2 - 16,
+    y: height / 2 - 32,
 
     gravity: 0.25,
 
     _jump: 5,
     jumpcount: 0,
-    canjump: true,
 
     moving: false,
+    direction: 0,
     acceleration: 0,
-    maxspeed: 2.5,
+    maxspeed: 3,
     xvelocity: 0,
     yvelocity: 0,
 
@@ -31,7 +31,6 @@ var player = {
         }
 
         if (this.yvelocity === 0 && this.y >= height - 32) {
-            this.canjump = true;
             this.jumpcount = 0;
         };
 
@@ -40,12 +39,10 @@ var player = {
     move: function (direction, evttype) {
 
         this.moving = evttype === "keydown" ? true : false;
-
-        // Move to update function
-        this.acceleration = direction > 0 ? this.acceleration + 0.25 : this.acceleration - 0.25;
+        this.direction = direction;
 
     },
-    // test
+
     update: function () {
         frames++
 
@@ -60,11 +57,6 @@ var player = {
         } else {
             this.yvelocity = 0;
         }
-        
-        // jump
-        if (this.yvelocity === 0 && this.y >= height - 32) {
-            this.jumpcount = 0;
-        };
 
         // movement
         if (this.xvelocity > this.maxspeed) {
@@ -73,6 +65,8 @@ var player = {
             this.xvelocity = -this.maxspeed;
         }
 
+        this.acceleration = this.direction > 0 ? this.acceleration + 0.1 : this.acceleration - 0.1;
+
         if (!this.moving) {
             this.xvelocity = 0;
             this.acceleration = 0;
@@ -80,11 +74,11 @@ var player = {
             this.xvelocity += this.acceleration;
         }
 
-        if (this.x >= (0 - this.xvelocity) && this.x <= width - (32 + this.xvelocity)) {
-            this.x += this.xvelocity;
-        } else {
+        if (this.x <= (0 - this.xvelocity) || this.x >= width - (32 + this.xvelocity)) {
             this.xvelocity = 0;
         }
+
+        this.x += this.xvelocity;
 
     },
 
