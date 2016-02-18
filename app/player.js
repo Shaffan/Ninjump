@@ -21,16 +21,16 @@ var player = {
 
     jump: function () {
 
-        if (this.yvelocity === 0) {
-            this.canjump = true;
-            this.jumpcount = 0;
-        };
-
         if (this.jumpcount < 2) {
             this.jumpcount += 1;
             this.yvelocity = -this._jump;
         } else {
             this.canjump = false;
+        };
+
+        if (this.yvelocity === 0 && this.y >= height - 32) {
+            this.canjump = true;
+            this.jumpcount = 0;
         };
 
     },
@@ -39,9 +39,8 @@ var player = {
 
         this.moving = evttype === "keydown" ? true : false;
 
+        // Move to update function
         this.acceleration = direction > 0 ? this.acceleration + 0.25 : this.acceleration - 0.25;
-
-        console.log(this.acceleration);
 
     },
 
