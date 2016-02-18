@@ -3,11 +3,7 @@ var canvas,
     context,
     width,
     height,
-    frames = 0,
-    images = [],
-    urls = [
-        "assets/ninja.png"
-    ];
+    frames = 0;
 
 function input(event) {
 
@@ -24,14 +20,6 @@ function input(event) {
     event.preventDefault();
 }
 
-function loadImages() {
-    for (var i = 0; i < urls.length; i++) {
-        var img = new Image();
-        img.src = urls[i];
-        images.push(img);
-    }
-}
-
 function run() {
     var loop = function () {
         update();
@@ -43,11 +31,16 @@ function run() {
 }
 
 function update() {
+    platforms.update();
     player.update();
+    
 }
 
 function render() {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    platforms.draw(context);
     player.draw(context);
+    
 }
 
 (function main(test) {
@@ -76,10 +69,10 @@ function render() {
 
     var img = new Image();
     img.onload = function () {
-        loadImages();
+        loadSprites(this);
         run();
 
     };
-    img.src = "assets/ninja.png";
+    img.src = "assets/sprites.png";
 
 })();

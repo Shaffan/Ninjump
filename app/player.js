@@ -4,7 +4,7 @@ var player = {
     x: width / 2 - 37.5,
     y: height / 2 - 75,
 
-    gravity: 0.25,
+    gravity: 0.35,
 
     _jump: 8,
     jumpcount: 0,
@@ -52,11 +52,11 @@ var player = {
         this.currentframe %= this.animation.length;
 
         // gravity and floor collision
-        if (this.y <= height - (71 + this.yvelocity)) {
+        if (this.y <= height - (player_s.height + this.yvelocity)) {
             this.yvelocity += this.gravity;
             this.y += this.yvelocity;
         } else {
-            this.y = height - 71;
+            this.y = height - player_s.height;
         }
 
         // movement
@@ -76,13 +76,13 @@ var player = {
         }
 
         // wall collision
-        if (this.x <= (-5 - this.xvelocity)) {
+        if (this.x <= (0 - this.xvelocity)) {
             this.xvelocity = 0;
-            this.x = -5;
+            this.x = 0;
         }
-        if (this.x >= width - (61 + this.xvelocity)) {
+        if (this.x >= width - (player_s.width + this.xvelocity)) {
             this.xvelocity = 0;
-            this.x = width - 61;
+            this.x = width - player_s.width;
         }
 
         this.x += this.xvelocity;
@@ -90,10 +90,6 @@ var player = {
     },
 
     draw: function (context) {
-        context.clearRect(0, 0, canvas.width, canvas.height);
-
-        var n = this.animation[this.currentframe];
-
-        context.drawImage(images[n], 0, 0, 75, 75, this.x, this.y, 75, 75);
+        player_s.draw(context, this.x, this.y);
     }
 };

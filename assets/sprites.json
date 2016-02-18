@@ -1,0 +1,30 @@
+{"frames": [
+
+{
+	"filename": "ninja.png",
+	"frame": {"x":1,"y":1,"w":57,"h":68},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":57,"h":68},
+	"sourceSize": {"w":57,"h":68},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "platform.png",
+	"frame": {"x":1,"y":71,"w":81,"h":11},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":81,"h":11},
+	"sourceSize": {"w":81,"h":11},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "sprites.png",
+	"format": "RGBA8888",
+	"size": {"w":83,"h":83},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:eb0ec123b763b8d470321c0848827407:87864ad5bbf91af2eadcb80a0d1d769c:1eabdf11f75e3a4fe3147baf7b5be24b$"
+}
+}
