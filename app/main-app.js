@@ -12,9 +12,9 @@ var canvas,
 function input(event) {
 
     if (event.which === 37) {
-        player.move(-1, event.type);     
+        player.move(-1, event.type);
     } else if (event.which === 38) {
-        player.jump();    
+        player.jump();
     } else if (event.which === 39) {
         player.move(1, event.type);
     } else return;
@@ -48,7 +48,7 @@ function render() {
     player.draw(context);
 }
 
-(function main() {
+(function main(test) {
 
     // width = window.innerWidth;
     // height = window.innerHeight;
@@ -58,7 +58,7 @@ function render() {
     $(document).keydown(function (event) {
         input(event);
     });
-    
+
     $(document).keyup(function (event) {
         input(event);
     });

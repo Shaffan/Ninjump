@@ -24,6 +24,7 @@ var player = {
         if (this.jumpcount < 2) {
             this.jumpcount += 1;
             this.yvelocity = -this._jump;
+            this.y += this.yvelocity;
         } else {
             this.canjump = false;
         };
@@ -51,7 +52,7 @@ var player = {
         // sets the currentframe to 0 when it reaches the end of the animation
         this.currentframe %= this.animation.length;
 
-        // gravity
+        // gravity and floor collision
         if (this.y <= height - (32 + this.yvelocity)) {
             this.yvelocity += this.gravity;
             this.y += this.yvelocity;
@@ -72,7 +73,13 @@ var player = {
         } else {
             this.xvelocity += this.acceleration;
         }
-        this.x += this.xvelocity;
+
+        if (this.x >= (0 - this.xvelocity) && this.x <= width - (32 + this.xvelocity)) {
+            this.x += this.xvelocity;
+        } else {
+            this.xvelocity = 0;
+        }
+
     },
 
     draw: function (context) {
