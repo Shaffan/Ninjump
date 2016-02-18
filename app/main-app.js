@@ -6,18 +6,20 @@ var canvas,
     frames = 0,
     images = [],
     urls = [
-        "assets/cube.png"
+        "assets/ninja.png"
     ];
 
 function input(event) {
 
     if (event.which === 37) {
         player.move(-1, event.type);
-    } else if (event.which === 38) {
+    }
+    if (event.which === 38) {
         player.jump();
-    } else if (event.which === 39) {
+    }
+    if (event.which === 39) {
         player.move(1, event.type);
-    } else return;
+    }
     // prevent scroll etc
     event.preventDefault();
 }
@@ -26,7 +28,7 @@ function loadImages() {
     for (var i = 0; i < urls.length; i++) {
         var img = new Image();
         img.src = urls[i];
-        images.push(img)
+        images.push(img);
     }
 }
 
@@ -78,6 +80,6 @@ function render() {
         run();
 
     };
-    img.src = "assets/cube.png";
+    img.src = "assets/ninja.png";
 
 })();

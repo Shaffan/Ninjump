@@ -1,12 +1,12 @@
 'use strict'
 var player = {
 
-    x: width / 2 - 16,
-    y: height / 2 - 32,
+    x: width / 2 - 37.5,
+    y: height / 2 - 75,
 
     gravity: 0.25,
 
-    _jump: 5,
+    _jump: 8,
     jumpcount: 0,
 
     moving: false,
@@ -30,7 +30,7 @@ var player = {
             this.y += this.yvelocity;
         }
 
-        if (this.yvelocity === 0 && this.y >= height - 32) {
+        if (this.y >= height - 75) {
             this.jumpcount = 0;
         };
 
@@ -47,15 +47,16 @@ var player = {
         frames++
 
         // this.currentframe += frames % 5 === 0 ? 1 : 0;
+
         // sets the currentframe to 0 when it reaches the end of the animation
         this.currentframe %= this.animation.length;
 
         // gravity and floor collision
-        if (this.y <= height - (32 + this.yvelocity)) {
+        if (this.y <= height - (71 + this.yvelocity)) {
             this.yvelocity += this.gravity;
             this.y += this.yvelocity;
         } else {
-            this.yvelocity = 0;
+            this.y = height - 71;
         }
 
         // movement
@@ -74,8 +75,14 @@ var player = {
             this.xvelocity += this.acceleration;
         }
 
-        if (this.x <= (0 - this.xvelocity) || this.x >= width - (32 + this.xvelocity)) {
+        // wall collision
+        if (this.x <= (-5 - this.xvelocity)) {
             this.xvelocity = 0;
+            this.x = -5;
+        }
+        if (this.x >= width - (60 + this.xvelocity)) {
+            this.xvelocity = 0;
+            this.x = width - 60;
         }
 
         this.x += this.xvelocity;
@@ -87,6 +94,6 @@ var player = {
 
         var n = this.animation[this.currentframe];
 
-        context.drawImage(images[n], 0, 0, 32, 32, this.x, this.y, 32, 32);
+        context.drawImage(images[n], 0, 0, 75, 75, this.x, this.y, 75, 75);
     }
 };
