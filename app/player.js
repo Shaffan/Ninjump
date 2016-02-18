@@ -80,9 +80,9 @@ var player = {
             this.xvelocity = 0;
             this.x = -5;
         }
-        if (this.x >= width - (60 + this.xvelocity)) {
+        if (this.x >= width - (61 + this.xvelocity)) {
             this.xvelocity = 0;
-            this.x = width - 60;
+            this.x = width - 61;
         }
 
         this.x += this.xvelocity;

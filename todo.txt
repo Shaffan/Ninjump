@@ -1,4 +1,5 @@
 - add platforms
+    - add custom image object
 - add collision with top of platforms
 - add momentum if player is in the air ( should add friction all the time and then have reduced friction while in the air)
 Done - Prevent player from moving out of the left and right of the screen
