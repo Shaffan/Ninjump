@@ -1,3 +1,4 @@
+'use strict'
 var player = {
 
     x: 160 - 16,
@@ -36,14 +37,11 @@ var player = {
     move: function (direction, evttype) {
 
         this.moving = evttype === "keydown" ? true : false;
-        console.log(this.moving);
-        
-        if (direction < 1) {
-            this.xvelocity = -this.xvelocity;
-            this.acceleration = -this.acceleration;    
-        } 
-        
-        
+
+        this.acceleration = direction > 0 ? this.acceleration + 0.25 : this.acceleration - 0.25;
+
+        console.log(this.acceleration);
+
     },
 
     update: function () {
@@ -62,14 +60,15 @@ var player = {
         }
 
         // movement
-        if (!this.moving) { 
-            console.log("entered");
+        if (!this.moving) {
+            this.xvelocity = 0;
+            this.acceleration = 0;
         } else {
             this.xvelocity += this.acceleration;
-            this.x += this.xvelocity;
         }
-        
-        console.log(this.acceleration);
+
+        this.x += this.xvelocity;
+
         // console.log("frames: " + frames);
 
     },
