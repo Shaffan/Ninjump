@@ -21,19 +21,12 @@ var player = {
 
     jump: function () {
 
+        // TODO: Refactor
         if (this.jumpcount < 2) {
             this.jumpcount += 1;
             this.yvelocity = -this._jump;
             this.y += this.yvelocity;
-        } else {
-            this.canjump = false;
-        };
-
-        if (this.yvelocity === 0 && this.y >= height - 32) {
-            this.canjump = true;
-            this.jumpcount = 0;
-        };
-
+        }
     },
 
     move: function (direction, evttype) {
@@ -59,6 +52,11 @@ var player = {
         } else {
             this.yvelocity = 0;
         }
+        
+        // jump
+        if (this.yvelocity === 0 && this.y >= height - 32) {
+            this.jumpcount = 0;
+        };
 
         // movement
         if (this.xvelocity > this.maxspeed) {
