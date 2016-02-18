@@ -1,3 +1,4 @@
+'use strict'
 var player = {
 
     x: 160 - 16,
@@ -11,6 +12,7 @@ var player = {
 
     moving: false,
     acceleration: 0,
+    maxspeed: 2.5,
     xvelocity: 0,
     yvelocity: 0,
 
@@ -19,16 +21,17 @@ var player = {
 
     jump: function () {
 
-        if (this.yvelocity === 0) {
-            this.canjump = true;
-            this.jumpcount = 0;
-        };
-
         if (this.jumpcount < 2) {
             this.jumpcount += 1;
             this.yvelocity = -this._jump;
+            this.y += this.yvelocity;
         } else {
             this.canjump = false;
+        };
+
+        if (this.yvelocity === 0 && this.y >= height - 32) {
+            this.canjump = true;
+            this.jumpcount = 0;
         };
 
     },
@@ -36,14 +39,10 @@ var player = {
     move: function (direction, evttype) {
 
         this.moving = evttype === "keydown" ? true : false;
-        console.log(this.moving);
-        
-        if (direction < 1) {
-            this.xvelocity = -this.xvelocity;
-            this.acceleration = -this.acceleration;    
-        } 
-        
-        
+
+        // Move to update function
+        this.acceleration = direction > 0 ? this.acceleration + 0.25 : this.acceleration - 0.25;
+
     },
     // test
     update: function () {
@@ -53,7 +52,7 @@ var player = {
         // sets the currentframe to 0 when it reaches the end of the animation
         this.currentframe %= this.animation.length;
 
-        // gravity
+        // gravity and floor collision
         if (this.y <= height - (32 + this.yvelocity)) {
             this.yvelocity += this.gravity;
             this.y += this.yvelocity;
@@ -62,15 +61,24 @@ var player = {
         }
 
         // movement
-        if (!this.moving) { 
-            console.log("entered");
+        if (this.xvelocity > this.maxspeed) {
+            this.xvelocity = this.maxspeed;
+        } else if (this.xvelocity < -this.maxspeed) {
+            this.xvelocity = -this.maxspeed;
+        }
+
+        if (!this.moving) {
+            this.xvelocity = 0;
+            this.acceleration = 0;
         } else {
             this.xvelocity += this.acceleration;
-            this.x += this.xvelocity;
         }
-        
-        console.log(this.acceleration);
-        // console.log("frames: " + frames);
+
+        if (this.x >= (0 - this.xvelocity) && this.x <= width - (32 + this.xvelocity)) {
+            this.x += this.xvelocity;
+        } else {
+            this.xvelocity = 0;
+        }
 
     },
 
