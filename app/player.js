@@ -21,40 +21,25 @@ var player = {
 
     jump: function () {
 
-<<<<<<< HEAD
+
         // TODO: Refactor
-=======
->>>>>>> 161c05bd995fdb68ca1b13ae9265deddd5d8b828
+
         if (this.jumpcount < 2) {
             this.jumpcount += 1;
             this.yvelocity = -this._jump;
             this.y += this.yvelocity;
-<<<<<<< HEAD
         }
-=======
-        } else {
-            this.canjump = false;
-        };
 
         if (this.yvelocity === 0 && this.y >= height - 32) {
             this.canjump = true;
             this.jumpcount = 0;
         };
 
->>>>>>> 161c05bd995fdb68ca1b13ae9265deddd5d8b828
     },
 
     move: function (direction, evttype) {
 
         this.moving = evttype === "keydown" ? true : false;
-<<<<<<< HEAD
-=======
-
-        // Move to update function
-        this.acceleration = direction > 0 ? this.acceleration + 0.25 : this.acceleration - 0.25;
-
-    },
->>>>>>> 161c05bd995fdb68ca1b13ae9265deddd5d8b828
 
         // Move to update function
         this.acceleration = direction > 0 ? this.acceleration + 0.25 : this.acceleration - 0.25;
