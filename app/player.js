@@ -66,7 +66,6 @@ var player = {
         } else {
             this.xvelocity += this.acceleration;
         }
-
         this.x += this.xvelocity;
 
         // console.log("frames: " + frames);
