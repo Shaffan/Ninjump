@@ -1,16 +1,18 @@
-- Prevent player from moving out of the left and right of the screen
 - add platforms
 - add collision with top of platforms
+- add momentum if player is in the air
+Done - Prevent player from moving out of the left and right of the screen
 
 
 
+Eventually
 
-
-
+- create game engine based on this game (focus on physics)
 
 
 
 
 Resources: 
 
+- NB: smooth movement http://stackoverflow.com/questions/15344104/smooth-character-movement-in-canvas-game-using-keyboard-controls
 - handle multiple simultaneous keystrokes: http://stackoverflow.com/questions/5203407/javascript-multiple-keys-pressed-at-once
