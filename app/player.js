@@ -62,8 +62,6 @@ var player = {
         if (!this.moving) {
             this.xvelocity = 0;
             this.acceleration = 0;
-        } else {
-            this.xvelocity += this.acceleration;
         }
 
         // wall collision
@@ -76,6 +74,7 @@ var player = {
             this.x = width - player_s.width;
         }
 
+        this.xvelocity += this.acceleration;
         this.x += this.xvelocity;
 
     },
