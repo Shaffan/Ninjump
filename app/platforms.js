@@ -14,7 +14,7 @@ var platforms = {
 
             this._platforms.push({
                 x: _x,
-                y: -100,
+                y: -50,
                 width: platform_s.width,
                 height: platform_s.height
             });
