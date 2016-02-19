@@ -15,6 +15,8 @@ var player = {
     xvelocity: 0,
     yvelocity: 0,
 
+    onplatform: false,
+
     jump: function () {
 
 
@@ -41,9 +43,18 @@ var player = {
 
     update: function () {
         frames++
+        
+        if (this.onplatform) {
+            // this.y = p.y - player_s.height;
+            console.log("On platform");
+            this.gravity = 0;
+            this.acceleration = 0;
+            this.yvelocity = platforms.velocity;
+            this.jumpcount = 0;    
+        }
 
         // gravity and floor collision
-        if (this.y <= height - (player_s.height + this.yvelocity)) {
+        if (this.y <= height - (player_s.height + this.yvelocity) && !this.onplatform) {
             this.yvelocity += this.gravity;
             this.y += this.yvelocity;
         } else {
@@ -76,6 +87,8 @@ var player = {
 
         this.xvelocity += this.acceleration;
         this.x += this.xvelocity;
+        
+        
 
     },
 

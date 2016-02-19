@@ -1,6 +1,6 @@
 var platforms = {
 
-    velocity: 2,
+    velocity: 1,
 
     _platforms: [],
 
@@ -36,8 +36,13 @@ var platforms = {
             var platy = p.y;
             var platy2 = p.y + platform_s.height;
 
-            if (((px <= platx2 && px >= platx) || (px2 >= platx && px2 <= platx2)) && (py >= platy && py <= platy2)) {
-                player.y = p.y - player_s.height;
+            if (((px >= platx && px <= platx2) || (px2 >= platx && px2 <= platx2)) && (py >= platy && py <= platy2) && player.yvelocity > 0) {
+                // this.y = p.y - player_s.height;
+                console.log("On platform");
+                player.gravity = 0;
+                player.acceleration = 0;
+                player.yvelocity = platforms.velocity;
+                player.jumpcount = 0;
             }
 
             // platform movement
