@@ -27,7 +27,6 @@ function run() {
         window.requestAnimationFrame(loop, canvas);
     }
     window.requestAnimationFrame(loop, canvas);
-
 }
 
 function update() {
