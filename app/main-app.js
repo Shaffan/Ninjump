@@ -33,17 +33,17 @@ function run() {
 function update() {
     platforms.update();
     player.update();
-    
+
 }
 
 function render() {
     context.clearRect(0, 0, canvas.width, canvas.height);
     platforms.draw(context);
     player.draw(context);
-    
+
 }
 
-(function main(test) {
+(function main() {
 
     // width = window.innerWidth;
     // height = window.innerHeight;
@@ -71,7 +71,6 @@ function render() {
     img.onload = function () {
         loadSprites(this);
         run();
-
     };
     img.src = "assets/sprites.png";
 

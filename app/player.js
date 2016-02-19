@@ -1,4 +1,3 @@
-'use strict'
 var player = {
 
     x: width / 2 - 37.5,
@@ -15,9 +14,6 @@ var player = {
     maxspeed: 3,
     xvelocity: 0,
     yvelocity: 0,
-
-    animation: [0],
-    currentframe: 0,
 
     jump: function () {
 
@@ -45,11 +41,6 @@ var player = {
 
     update: function () {
         frames++
-
-        // this.currentframe += frames % 5 === 0 ? 1 : 0;
-
-        // sets the currentframe to 0 when it reaches the end of the animation
-        this.currentframe %= this.animation.length;
 
         // gravity and floor collision
         if (this.y <= height - (player_s.height + this.yvelocity)) {
