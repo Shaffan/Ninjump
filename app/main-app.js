@@ -11,7 +11,7 @@ function input(event) {
     if (event.which === 37) {
         player.move(-1, event.type);
     }
-    if (event.which === 38) {
+    if (event.which === 38 && event.type != 'keyup') {
         player.jump();
     }
     if (event.which === 39) {
@@ -47,8 +47,8 @@ function render() {
 
     // width = window.innerWidth;
     // height = window.innerHeight;
-    width = 500;
-    height = 750;
+    width = 400;
+    height = 600;
 
     $(document).keydown(function (event) {
         input(event);

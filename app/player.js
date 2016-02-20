@@ -5,7 +5,7 @@ var player = {
 
     gravity: 0.35,
 
-    _jump: 8,
+    _jump: 6.5,
     jumpcount: 0,
 
     moving: false,
@@ -41,19 +41,18 @@ var player = {
 
     update: function () {
         frames++
-        
+
         if (this.onplatform) {
             this.yvelocity = platforms.velocity;
-            this.jumpcount = 0;  
+            this.jumpcount = 0;
+        } else if (this.y + player_s.height < height) {
+            this.yvelocity += this.gravity;
         } else {
-            if (this.y + player_s.height < height) {
-                this.yvelocity += this.gravity;
-            } else {
-                // player dies
-                this.yvelocity = 0;
-                this.y = height - player_s.height;
-            }
+            // player dies
+            this.yvelocity = 0;
+            this.y = height - player_s.height;
         }
+
 
         // movement
         if (this.xvelocity > this.maxspeed) {
