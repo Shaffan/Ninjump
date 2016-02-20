@@ -1,6 +1,6 @@
 - add game states (so that player starts on platform in the middle of the screen insteaf of on the ground)
 - fix physics
-    = if players velocity is higher than height of platform he falls through it (fix)
+    
 - add momentum if player is in the air ( should add friction all the time and then have reduced friction while in the air)
 
 Done - add collision with top of platforms (find a way to narrow collision detection to closest platform)
@@ -8,7 +8,10 @@ Done - add platforms
     Done - add custom image object
 Done - Prevent player from moving out of the left and right of the screen
 
+Issues:
 
+1. if players velocity is higher than height of platform he falls through it (fix)
+2. Fix for above problem causes a gap between player and platform which is equal to player yvelocity at the time of collision detection
 
 Eventually
 

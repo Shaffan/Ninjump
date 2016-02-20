@@ -81,12 +81,7 @@ var player = {
         // apply values
         this.xvelocity += this.acceleration;
         this.y += this.yvelocity;
-        this.x += this.xvelocity;
-        console.log("yvelocity: " + this.yvelocity);
-        console.log("on platform: " + this.onplatform);
-        
-        
-
+        this.x += this.xvelocity;     
     },
 
     draw: function (context) {

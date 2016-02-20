@@ -28,7 +28,7 @@ var platforms = {
             // right side of player
             var px2 = player.x + player_s.width;
             // player feet
-            var py = player.y + player_s.height;
+            var py = player.y + player_s.height + player.yvelocity;
 
             var platx2 = p.x + platform_s.width;
             var platy2 = p.y + platform_s.height / 2;
@@ -43,6 +43,7 @@ var platforms = {
             if (p.proximity == minprox) {
                 if (((player.x > p.x && player.x < platx2) || (px2 > p.x && px2 < platx2)) && (py >= p.y && py <= platy2) && player.yvelocity > 0) {
                     player.onplatform = true;
+                    player.y = p.y - player_s.height;
                 } else {
                     player.onplatform = false;
                 }
