@@ -14,14 +14,22 @@ var platforms = {
     update: function () {
 
         if (gamestate === states.Start) {
+            this._platforms.splice(0, this._platforms.length);
 
+            this._platforms.push({
+                x: width / 2 - (platform_s.width / 2),
+                y: height / 9,
+                proximity: 0,
+                width: platform_s.width,
+                height: platform_s.height
+            });
         } else {
             if (frames % 110 === 0) {
                 var _x = getRandomArbitrary(1, width - platform_s.width - 1);
 
                 this._platforms.push({
                     x: _x,
-                    y: -50,
+                    y: -35,
                     proximity: 0,
                     width: platform_s.width,
                     height: platform_s.height

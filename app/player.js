@@ -34,7 +34,7 @@ var player = {
 
         if (this.y >= height - 75) {
             this.jumpcount = 0;
-        };
+        }
 
     },
 
@@ -44,51 +44,59 @@ var player = {
     },
 
     update: function () {
-        frames++
-        
-        if (this.yvelocity > 0 && this.yvelocity > this.maxfallspeed) {
-            this.yvelocity = this.maxfallspeed;
-        }
 
-        if (this.onplatform) {
-            this.yvelocity = platforms.velocity;
-            this.jumpcount = 0;
-        } else if (this.y + player_s.height < height) {
-            this.yvelocity += this.gravity;
+        if (gamestate === states.Start) {
+            this.y = platforms._platforms.map(function (obj) {
+                    return obj.y
+                }) - player_s.height;
         } else {
-            // player dies
-            this.yvelocity = 0;
-            this.y = height - player_s.height;
+            if (this.yvelocity > 0 && this.yvelocity > this.maxfallspeed) {
+                this.yvelocity = this.maxfallspeed;
+            }
+
+            if (this.onplatform) {
+                this.yvelocity = platforms.velocity;
+                this.jumpcount = 0;
+            } else if (this.y + player_s.height < height) {
+                this.yvelocity += this.gravity;
+            } else {
+                gamestate = states.Score;
+
+                //this.yvelocity = 0;
+                //this.y = height - player_s.height;
+            }
+
+            // movement
+            if (this.xvelocity > this.maxspeed) {
+                this.xvelocity = this.maxspeed;
+            } else if (this.xvelocity < -this.maxspeed) {
+                this.xvelocity = -this.maxspeed;
+            }
+
+            this.acceleration = this.direction > 0 ? this.acceleration + 0.1 : this.acceleration - 0.1;
+
+            if (!this.moving) {
+                this.xvelocity = 0;
+                this.acceleration = 0;
+            }
+
+            // wall collision
+            if (this.x <= (0 - this.xvelocity)) {
+                this.xvelocity = 0;
+                this.x = 0;
+            }
+            if (this.x >= width - (player_s.width + this.xvelocity)) {
+                this.xvelocity = 0;
+                this.x = width - player_s.width;
+            }
+
+            // apply values
+            this.xvelocity += this.acceleration;
+            this.y += this.yvelocity;
+            this.x += this.xvelocity;
         }
 
-        // movement
-        if (this.xvelocity > this.maxspeed) {
-            this.xvelocity = this.maxspeed;
-        } else if (this.xvelocity < -this.maxspeed) {
-            this.xvelocity = -this.maxspeed;
-        }
 
-        this.acceleration = this.direction > 0 ? this.acceleration + 0.1 : this.acceleration - 0.1;
-
-        if (!this.moving) {
-            this.xvelocity = 0;
-            this.acceleration = 0;
-        }
-
-        // wall collision
-        if (this.x <= (0 - this.xvelocity)) {
-            this.xvelocity = 0;
-            this.x = 0;
-        }
-        if (this.x >= width - (player_s.width + this.xvelocity)) {
-            this.xvelocity = 0;
-            this.x = width - player_s.width;
-        }
-        
-        // apply values
-        this.xvelocity += this.acceleration;
-        this.y += this.yvelocity;
-        this.x += this.xvelocity;     
     },
 
     draw: function (context) {

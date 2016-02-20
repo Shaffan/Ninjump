@@ -10,16 +10,19 @@ var canvas,
     frames = 0,
     
     gamestate,
-    states = {Start: 0, Game: 1};
-    
-    
+    states = {Start: 0, Game: 1, Score: 2};
 
 function input(event) {
+
+    if (gamestate === states.Start) {
+        gamestate = states.Game;
+        player.jump();
+    }
 
     if (event.which === 37) {
         player.move(-1, event.type);
     }
-    if (event.which === 38 && event.type != 'keyup') {
+    if (event.which === 38 && event.type !== 'keyup') {
         player.jump();
     }
     if (event.which === 39) {
@@ -34,19 +37,29 @@ function run() {
         update();
         render();
         window.requestAnimationFrame(loop, canvas);
-    }
+    };
     window.requestAnimationFrame(loop, canvas);
 }
 
 function update() {
-    platforms.update();
+    frames++;
+    if (gamestate !== states.Score) {
+        platforms.update();
+    }
     player.update();
 
 }
 
 function render() {
     context.clearRect(0, 0, canvas.width, canvas.height);
-    context.fillText("Copyright © 2016 Stefan Horne", width - width / 3,  height - height / 65);
+    if (gamestate === states.Start) {
+        var text = context.measureText("Jump to start");
+        context.fillText("Jump to start", width / 2 - (text.width / 2), height / 2);
+    } else if (gamestate === states.Score) {
+        var text = context.measureText("uded");
+        context.fillText("uded", width / 2 - (text.width / 2), height / 2);
+    }
+    // context.fillText("Copyright © 2016 Stefan Horne", width - width / 3,  height - height / 65);
     platforms.draw(context);
     player.draw(context);
 
@@ -71,9 +84,10 @@ function render() {
     canvas.width = width;
     canvas.height = height;
 
-
     context = canvas.getContext("2d");
-    context.font = "bold 8px Helvetica";
+    context.font = "bold 30px Kristen ITC";
+
+    gamestate = states.Start;
 
     document.body.appendChild(canvas);
 
@@ -81,7 +95,7 @@ function render() {
     img.onload = function () {
         loadSprites(this);
         run();
-        player.x = width / 2 - player_s.width / 2;
+        player.x = width / 2 - (player_s.width / 2) + 5;
         player.y = height / 2 - player_s.height / 2;
     };
     img.src = "assets/sprites.png";
