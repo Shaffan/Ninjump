@@ -3,7 +3,7 @@
  *********************************/
 var platforms = {
 
-    velocity: 3,
+    velocity: 3.5,
 
     _platforms: [],
 

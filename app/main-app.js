@@ -16,7 +16,6 @@ function input(event) {
 
     if (gamestate === states.Start) {
         gamestate = states.Game;
-        player.jump();
     }
 
     if (event.which === 37) {
@@ -58,11 +57,11 @@ function render() {
     player.draw(context);
 
     if (gamestate === states.Start) {
-        var text = context.measureText("Jump to start");
-        context.fillText("Jump to start", width / 2 - (text.width / 2), height / 2);
+        var text = context.measureText("Press any button to start");
+        context.fillText("Press any button to start", width / 2 - (text.width / 2), height / 2);
     } else if (gamestate === states.Score) {
-        var text = context.measureText("uded");
-        context.fillText("uded", width / 2 - (text.width / 2), height / 2);
+        var text = context.measureText("git gud");
+        context.fillText("git gud", width / 2 - (text.width / 2), height / 2);
     }
 }
 

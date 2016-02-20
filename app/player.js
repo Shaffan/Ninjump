@@ -31,11 +31,6 @@ var player = {
             this.yvelocity = -this._jump;
             this.y += this.yvelocity;
         }
-
-        if (this.y >= height - 75) {
-            this.jumpcount = 0;
-        }
-
     },
 
     move: function (direction, evttype) {

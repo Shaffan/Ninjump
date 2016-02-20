@@ -1,4 +1,4 @@
-
+- implement score
 - fix physics
 - get a more even distribution for platform spawns
 - make mobile-compatible
