@@ -1,6 +1,6 @@
 var platforms = {
 
-    velocity: 1,
+    velocity: 1.5,
 
     _platforms: [],
 
@@ -9,52 +9,52 @@ var platforms = {
     },
 
     update: function () {
-        if (frames % 200 === 0) {
+        if (frames % 125 === 0) {
             var _x = getRandomArbitrary(1, width - platform_s.width - 1);
 
             this._platforms.push({
                 x: _x,
                 y: -50,
+                proximity: 0,
                 width: platform_s.width,
                 height: platform_s.height
             });
         }
         for (i = 0, len = this._platforms.length; i < len; i++) {
             var p = this._platforms[i];
+            
+            /* Collision */
 
-            // Collision
-
-            // left side of player
-            var px = player.x;
             // right side of player
             var px2 = player.x + player_s.width;
             // player feet
             var py = player.y + player_s.height;
 
-            var platx = p.x;
             var platx2 = p.x + platform_s.width;
-            var platy = p.y;
-            var platy2 = p.y + platform_s.height;
+            var platy2 = p.y + platform_s.height / 2;
 
-            if (((px >= platx && px <= platx2) || (px2 >= platx && px2 <= platx2)) && (py >= platy && py <= platy2) && player.yvelocity > 0) {
-                // this.y = p.y - player_s.height;
-                console.log("On platform");
-                player.gravity = 0;
-                player.acceleration = 0;
-                player.yvelocity = platforms.velocity;
-                player.jumpcount = 0;
+            /* Platform Collision */
+
+            // Calculate proximity to player and get closest proximity to player
+            p.proximity = Math.abs(p.x / 2 - player.x / 2) + Math.abs(p.y / 2 - player.y / 2);
+            var minprox = Math.min.apply(Math, this._platforms.map(function (obj) { return obj.proximity; }));
+            
+            // If this is the closest platform to the player
+            if (p.proximity == minprox) {
+                if (((player.x > p.x && player.x < platx2) || (px2 > p.x && px2 < platx2)) && (py >= p.y && py <= platy2) && player.yvelocity > 0) {
+                    player.onplatform = true;
+                } else {
+                    player.onplatform = false;
+                }
             }
 
-            // platform movement
+            // Platform movement and remove platforms after they leave the canvas
             p.y += this.velocity;
-
-            // remove platforms after they leave the canvas
             if (p.y > height) {
                 this._platforms.splice(i, 1);
                 i--;
                 len--;
             }
-
         }
 
 

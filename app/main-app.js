@@ -3,6 +3,7 @@ var canvas,
     context,
     width,
     height,
+    // This needs to be initialised
     frames = 0;
 
 function input(event) {
@@ -70,6 +71,8 @@ function render() {
     img.onload = function () {
         loadSprites(this);
         run();
+        player.x = width / 2 - player_s.width / 2;
+        player.y = height / 2 - player_s.height / 2;
     };
     img.src = "assets/sprites.png";
 

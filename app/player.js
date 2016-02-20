@@ -1,7 +1,7 @@
 var player = {
 
-    x: width / 2 - 37.5,
-    y: height / 2 - 75,
+    x: 0,
+    y: 0,
 
     gravity: 0.35,
 
@@ -35,30 +35,24 @@ var player = {
     },
 
     move: function (direction, evttype) {
-
         this.moving = evttype === "keydown" ? true : false;
         this.direction = direction;
-
     },
 
     update: function () {
         frames++
         
         if (this.onplatform) {
-            // this.y = p.y - player_s.height;
-            console.log("On platform");
-            this.gravity = 0;
-            this.acceleration = 0;
             this.yvelocity = platforms.velocity;
-            this.jumpcount = 0;    
-        }
-
-        // gravity and floor collision
-        if (this.y <= height - (player_s.height + this.yvelocity) && !this.onplatform) {
-            this.yvelocity += this.gravity;
-            this.y += this.yvelocity;
+            this.jumpcount = 0;  
         } else {
-            this.y = height - player_s.height;
+            if (this.y + player_s.height < height) {
+                this.yvelocity += this.gravity;
+            } else {
+                // player dies
+                this.yvelocity = 0;
+                this.y = height - player_s.height;
+            }
         }
 
         // movement
@@ -84,9 +78,13 @@ var player = {
             this.xvelocity = 0;
             this.x = width - player_s.width;
         }
-
+        
+        // apply values
         this.xvelocity += this.acceleration;
+        this.y += this.yvelocity;
         this.x += this.xvelocity;
+        console.log("yvelocity: " + this.yvelocity);
+        console.log("on platform: " + this.onplatform);
         
         
 
