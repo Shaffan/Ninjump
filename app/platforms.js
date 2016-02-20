@@ -3,7 +3,7 @@
  *********************************/
 var platforms = {
 
-    velocity: 1.5,
+    velocity: 3,
 
     _platforms: [],
 
@@ -24,7 +24,7 @@ var platforms = {
                 height: platform_s.height
             });
         } else {
-            if (frames % 110 === 0) {
+            if (frames % 65 === 0) {
                 var _x = getRandomArbitrary(1, width - platform_s.width - 1);
 
                 this._platforms.push({
