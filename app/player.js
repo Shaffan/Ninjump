@@ -1,3 +1,6 @@
+/*********************************
+ * Copyright © 2016 Stefan Horne *
+ *********************************/
 var player = {
 
     x: 0,
@@ -36,7 +39,7 @@ var player = {
     },
 
     move: function (direction, evttype) {
-        this.moving = evttype === "keydown" ? true : false;
+        this.moving = evttype === "keydown";
         this.direction = direction;
     },
 
@@ -57,7 +60,6 @@ var player = {
             this.yvelocity = 0;
             this.y = height - player_s.height;
         }
-
 
         // movement
         if (this.xvelocity > this.maxspeed) {
