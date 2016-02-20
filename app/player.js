@@ -4,6 +4,7 @@ var player = {
     y: 0,
 
     gravity: 0.35,
+    maxfallspeed: 8,
 
     _jump: 6.5,
     jumpcount: 0,
@@ -41,6 +42,10 @@ var player = {
 
     update: function () {
         frames++
+        
+        if (this.yvelocity > 0 && this.yvelocity > this.maxfallspeed) {
+            this.yvelocity = this.maxfallspeed;
+        }
 
         if (this.onplatform) {
             this.yvelocity = platforms.velocity;

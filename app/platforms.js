@@ -26,7 +26,7 @@ var platforms = {
             /* Collision */
 
             // right side of player
-            var px2 = player.x + player_s.width;
+            var px2 = player.x + player_s.width - 15;
             // player feet
             var py = player.y + player_s.height + player.yvelocity;
 
