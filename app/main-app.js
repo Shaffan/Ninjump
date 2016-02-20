@@ -4,7 +4,12 @@ var canvas,
     width,
     height,
     // This needs to be initialised
-    frames = 0;
+    frames = 0,
+    
+    gamestate,
+    states = {Start: 0, Game: 1};
+    
+    
 
 function input(event) {
 
