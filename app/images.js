@@ -16,7 +16,7 @@ ImgObj.prototype.draw = function (context, x, y) {
 
 function loadSprites(img) {
     
-    player_s = new ImgObj(img, 1, 1, 57, 68);
-    platform_s = new ImgObj(img, 1, 71, 81, 11);   
+    player_s = new ImgObj(img, 0, 0, 34, 42);
+    platform_s = new ImgObj(img, 0, 42, 81, 11);   
      
 } 

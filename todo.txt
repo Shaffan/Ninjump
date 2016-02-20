@@ -1,8 +1,8 @@
-- add collision with top of platforms (find a way to narrow collision detection to closest platform)
 - add game states (so that player starts on platform in the middle of the screen insteaf of on the ground)
+- fix physics
 - add momentum if player is in the air ( should add friction all the time and then have reduced friction while in the air)
 
-
+Done - add collision with top of platforms (find a way to narrow collision detection to closest platform)
 Done - add platforms
     Done - add custom image object
 Done - Prevent player from moving out of the left and right of the screen
