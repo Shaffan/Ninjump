@@ -10,7 +10,12 @@ var canvas,
     frames = 0,
     
     gamestate,
-    states = {Start: 0, Game: 1, Death: 2};
+    states = {Start: 0, Game: 1, Death: 2},
+
+    score = 0,
+    increment = 1,
+    multiplier = 1,
+    best = localStorage.getItem("best") || 0;
 
 function input(event) {
 
@@ -44,6 +49,13 @@ function update() {
     frames++;
     if (gamestate !== states.Death) {
         platforms.update();
+    } else {
+        best = Math.max(best, score);
+        localStorage.setItem("best", best);
+    }
+    // Score
+    if (gamestate === states.Game && player.yvelocity < 0) {
+        score += increment * multiplier;
     }
     player.update();
 
@@ -59,8 +71,15 @@ function render() {
         var text = context.measureText("Press any button to start");
         context.fillText("Press any button to start", width / 2 - (text.width / 2), height / 2);
     } else if (gamestate === states.Death) {
-        canvas.style.backgroundColor = '#a2b4c3';
+        canvas.style.backgroundColor = '#a2b4c3'
+        context.font = "bold 12px Kristen ITC";
         score_s.draw(context, width / 2 - (score_s.width / 2), height / 2 - (score_s.height / 2));
+        var text = context.measureText("Score: " + score + " ");
+        context.fillText("Score: " + score + " ", width / 2 - text.width, height / 2 + (score_s.height / 3));
+        context.fillText("  Best: " + best, width / 2, height / 2 + (score_s.height / 3));
+    } else if (gamestate = states.Game) {
+        var text = context.measureText(score.toString());
+        context.fillText(score.toString(), width - (width / 45) - text.width + 2, height / 100 + 15);
     }
 }
 
@@ -73,7 +92,7 @@ function render() {
     if (width > 500) {
         width = 400;
         height = 600;
-        font = "bold 30px Kristen ITC";
+        font = "bold 20px Kristen ITC";
     }
 
     canvas = document.createElement('canvas');
