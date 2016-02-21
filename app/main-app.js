@@ -66,10 +66,16 @@ function render() {
 
 (function main() {
 
-    // width = window.innerWidth;
-    // height = window.innerHeight;
-    width = 400;
-    height = 600;
+    width = window.innerWidth;
+    height = window.innerHeight;
+
+    if (width > 500) {
+        width = 400;
+        height = 600;
+    }
+
+    console.log(width);
+    console.log(height);
 
     $(document).keydown(function (event) {
         input(event);

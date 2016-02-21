@@ -29,7 +29,7 @@ var platforms = {
 
                 this._platforms.push({
                     x: _x,
-                    y: -35,
+                    y: -25,
                     proximity: 0,
                     closest: false,
                     width: platform_s.width,
@@ -47,7 +47,7 @@ var platforms = {
                 var py = player.y + player_s.height + player.yvelocity;
 
                 var platx2 = p.x + platform_s.width;
-                var platy2 = p.y + platform_s.height / 2;
+                var platy2 = p.y + platform_s.height;
 
                 /* Platform Collision */
 
@@ -57,11 +57,7 @@ var platforms = {
                     return obj.proximity;
                 }));
 
-                if (p.proximity == minprox) {
-                    this.closest = true;
-                } else {
-                    this.closest = false;
-                }
+                this.closest = p.proximity == minprox;
 
                 // If this is the closest platform to the player
                 if (this.closest) {

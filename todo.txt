@@ -1,6 +1,7 @@
 - implement score
 - fix physics
-- get a more even distribution for platform spawns
+- get a more even x distribution for platform spawns
+- add a random element to distance between platforms
 - make mobile-compatible
 - package using phonegap
 
