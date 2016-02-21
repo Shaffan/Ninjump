@@ -59,6 +59,7 @@ function render() {
         var text = context.measureText("Press any button to start");
         context.fillText("Press any button to start", width / 2 - (text.width / 2), height / 2);
     } else if (gamestate === states.Score) {
+        canvas.style.backgroundColor = '#a2b4c3';
         score_s.draw(context, width / 2 - (score_s.width / 2), height / 2 - (score_s.height / 2));
     }
 }
