@@ -56,7 +56,7 @@ var player = {
             } else if (this.y + player_s.height < height) {
                 this.yvelocity += this.gravity;
             } else {
-                gamestate = states.Score;
+                gamestate = states.Death;
 
                 //this.yvelocity = 0;
                 //this.y = height - player_s.height;
@@ -69,7 +69,7 @@ var player = {
                 this.xvelocity = -this.maxspeed;
             }
 
-            this.acceleration = this.direction > 0 ? this.acceleration + 0.1 : this.acceleration - 0.1;
+            this.acceleration = this.direction > 0 ? this.acceleration + 0.08 : this.acceleration - 0.08;
 
             if (!this.moving) {
                 this.xvelocity = 0;

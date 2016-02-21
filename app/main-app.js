@@ -10,7 +10,7 @@ var canvas,
     frames = 0,
     
     gamestate,
-    states = {Start: 0, Game: 1, Score: 2};
+    states = {Start: 0, Game: 1, Death: 2};
 
 function input(event) {
 
@@ -35,14 +35,14 @@ function run() {
     var loop = function () {
         update();
         render();
-        window.requestAnimationFrame(loop, canvas);
+        window.requestAnimationFrame(loop);
     };
-    window.requestAnimationFrame(loop, canvas);
+    window.requestAnimationFrame(loop);
 }
 
 function update() {
     frames++;
-    if (gamestate !== states.Score) {
+    if (gamestate !== states.Death) {
         platforms.update();
     }
     player.update();
@@ -58,7 +58,7 @@ function render() {
     if (gamestate === states.Start) {
         var text = context.measureText("Press any button to start");
         context.fillText("Press any button to start", width / 2 - (text.width / 2), height / 2);
-    } else if (gamestate === states.Score) {
+    } else if (gamestate === states.Death) {
         canvas.style.backgroundColor = '#a2b4c3';
         score_s.draw(context, width / 2 - (score_s.width / 2), height / 2 - (score_s.height / 2));
     }
@@ -69,13 +69,22 @@ function render() {
     width = window.innerWidth;
     height = window.innerHeight;
 
+    var font = "bold 20px Kristen ITC";
     if (width > 500) {
         width = 400;
         height = 600;
+        font = "bold 30px Kristen ITC";
     }
 
-    console.log(width);
-    console.log(height);
+    canvas = document.createElement('canvas');
+
+    canvas.width = width;
+    canvas.height = height;
+
+    context = canvas.getContext("2d");
+    context.font = font;
+
+    document.body.appendChild(canvas);
 
     $(document).keydown(function (event) {
         input(event);
@@ -84,17 +93,8 @@ function render() {
         input(event);
     });
 
-    canvas = document.createElement('canvas');
-
-    canvas.width = width;
-    canvas.height = height;
-
-    context = canvas.getContext("2d");
-    context.font = "bold 30px Kristen ITC";
-
     gamestate = states.Start;
 
-    document.body.appendChild(canvas);
 
     var img = new Image();
     img.onload = function () {
