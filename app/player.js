@@ -41,6 +41,7 @@ var player = {
     update: function () {
 
         if (gamestate === states.Start) {
+            this.onplatform = true;
             this.y = platforms._platforms.map(function (obj) {
                     return obj.y
                 }) - player_s.height;

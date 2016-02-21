@@ -12,12 +12,12 @@ Done - Prevent player from moving out of the left and right of the screen
 
 Issues:
 
-3. player can still jump after they've died
 4. sometimes player falls through platforms - not sure why
 
 (fixed)
 1. if players velocity is higher than height of platform he falls through it (fix)
 2. Fix for above problem causes a gap between player and platform which is equal to player yvelocity at the time of collision detection
+3. player can still jump after they've died
 
 Resources: 
 

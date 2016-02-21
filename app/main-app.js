@@ -52,7 +52,6 @@ function update() {
 function render() {
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    // context.fillText("Copyright © 2016 Stefan Horne", width - width / 3,  height - height / 65);
     platforms.draw(context);
     player.draw(context);
 
@@ -60,8 +59,7 @@ function render() {
         var text = context.measureText("Press any button to start");
         context.fillText("Press any button to start", width / 2 - (text.width / 2), height / 2);
     } else if (gamestate === states.Score) {
-        var text = context.measureText("git gud");
-        context.fillText("git gud", width / 2 - (text.width / 2), height / 2);
+        score_s.draw(context, width / 2 - (score_s.width / 2), height / 2 - (score_s.height / 2));
     }
 }
 
