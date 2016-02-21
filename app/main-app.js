@@ -66,19 +66,19 @@ function render() {
 
     platforms.draw(context);
     player.draw(context);
-
+    var text = null;
     if (gamestate === states.Start) {
-        var text = context.measureText("Press any button to start");
+        text = context.measureText("Press any button to start");
         context.fillText("Press any button to start", width / 2 - (text.width / 2), height / 2);
     } else if (gamestate === states.Death) {
         canvas.style.backgroundColor = '#a2b4c3'
         context.font = "bold 12px Kristen ITC";
         score_s.draw(context, width / 2 - (score_s.width / 2), height / 2 - (score_s.height / 2));
-        var text = context.measureText("Score: " + score + " ");
+        text = context.measureText("Score: " + score + " ");
         context.fillText("Score: " + score + " ", width / 2 - text.width, height / 2 + (score_s.height / 3));
         context.fillText("  Best: " + best, width / 2, height / 2 + (score_s.height / 3));
     } else if (gamestate = states.Game) {
-        var text = context.measureText(score.toString());
+        text = context.measureText(score.toString());
         context.fillText(score.toString(), width - (width / 45) - text.width + 2, height / 100 + 15);
     }
 }

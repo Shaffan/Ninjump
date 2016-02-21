@@ -1,10 +1,10 @@
-- implement score
-- fix physics
 - get a more even x distribution for platform spawns
 - add a random element to distance between platforms
+- fix movement physics
 - make mobile-compatible
 - package using phonegap
 
+Done - implement score
 Done - add game states (so that player starts on platform in the middle of the screen instead of on the ground)
 Done - add collision with top of platforms (find a way to narrow collision detection to closest platform)
 Done - add platforms
@@ -13,12 +13,13 @@ Done - Prevent player from moving out of the left and right of the screen
 
 Issues:
 
-4. sometimes player falls through platforms - not sure why
+
 
 (fixed)
 1. if players velocity is higher than height of platform he falls through it (fix)
 2. Fix for above problem causes a gap between player and platform which is equal to player yvelocity at the time of collision detection
 3. player can still jump after they've died
+4. sometimes player falls through platforms - not sure why
 
 Resources: 
 
