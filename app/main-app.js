@@ -119,8 +119,8 @@ function render() {
     img.onload = function () {
         loadSprites(this);
         run();
-        player.x = width / 2 - (player_s.width / 2) + 5;
-        player.y = height / 2 - player_s.height / 2;
+        player.x = width / 2 - (player_s_right.width / 2);
+        player.y = height / 2 - player_s_right.height / 2;
     };
     img.src = "assets/sprites.png";
 

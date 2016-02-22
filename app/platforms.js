@@ -37,17 +37,18 @@ var platforms = {
                 });
             }
             for (i = 0, len = this._platforms.length; i < len; i++) {
-                var p = this._platforms[i];
+                var p = this._platforms[i],
 
                 /* Collision */
 
+                    px = player.direction > 0 ? player.x + 15 : player.x,
                 // right side of player
-                var px2 = player.x + player_s.width - 15;
+                    px2 = player.direction > 0 ? player.x + player_s_right.width : player.x + player_s_right.width - 15,
                 // player feet
-                var py = player.y + player_s.height + player.yvelocity;
+                    py = player.y + player_s_right.height + player.yvelocity,
 
-                var platx2 = p.x + platform_s.width;
-                var platy2 = p.y + platform_s.height;
+                    platx2 = p.x + platform_s.width,
+                    platy2 = p.y + platform_s.height;
 
                 /* Platform Collision */
 
@@ -61,9 +62,9 @@ var platforms = {
 
                 // If this is the closest platform to the player
                 if (this.closest) {
-                    if (((player.x > p.x && player.x < platx2) || (px2 > p.x && px2 < platx2)) && (py >= p.y && py <= platy2) && player.yvelocity > 0) {
+                    if (((px > p.x && px < platx2) || (px2 > p.x && px2 < platx2)) && (py >= p.y && py <= platy2) && player.yvelocity > 0) {
                         player.onplatform = true;
-                        player.y = p.y - player_s.height;
+                        player.y = p.y - player_s_right.height;
                     } else {
                         player.onplatform = false;
                     }

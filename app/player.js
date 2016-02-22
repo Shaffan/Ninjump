@@ -44,7 +44,7 @@ var player = {
             this.yvelocity = platforms.velocity;
             this.y = platforms._platforms.map(function (obj) {
                     return obj.y
-                }) - player_s.height;
+                }) - player_s_right.height;
         } else {
             if (this.yvelocity > 0 && this.yvelocity > this.maxfallspeed) {
                 this.yvelocity = this.maxfallspeed;
@@ -53,13 +53,13 @@ var player = {
             if (this.onplatform) {
                 this.yvelocity = platforms.velocity;
                 this.jumpcount = 0;
-            } else if (this.y + player_s.height < height) {
+            } else if (this.y + player_s_right.height < height) {
                 this.yvelocity += this.gravity;
             } else {
-                gamestate = states.Death;
+                //gamestate = states.Death;
 
-                //this.yvelocity = 0;
-                //this.y = height - player_s.height;
+                this.yvelocity = 0;
+                this.y = height - player_s_right.height;
             }
 
             // movement
@@ -81,9 +81,9 @@ var player = {
                 this.xvelocity = 0;
                 this.x = 0;
             }
-            if (this.x >= width - (player_s.width + this.xvelocity)) {
+            if (this.x >= width - (player_s_right.width + this.xvelocity)) {
                 this.xvelocity = 0;
-                this.x = width - player_s.width;
+                this.x = width - player_s_right.width;
             }
 
             // apply values
@@ -96,6 +96,11 @@ var player = {
     },
 
     draw: function (context) {
-        player_s.draw(context, this.x, this.y);
+        if (this.direction > 0) {
+            player_s_right.draw(context, this.x, this.y);
+        } else {
+            player_s_left.draw(context, this.x, this.y);
+        }
+
     }
 };

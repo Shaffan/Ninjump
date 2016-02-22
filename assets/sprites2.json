@@ -1,7 +1,7 @@
 {"frames": [
 
 {
-	"filename": "ninja2.png",
+	"filename": "ninja_left.png",
 	"frame": {"x":0,"y":0,"w":34,"h":42},
 	"rotated": false,
 	"trimmed": false,
@@ -10,13 +10,38 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "platform.png",
+	"filename": "ninja_right.png",
 	"frame": {
 		"x": 34,
 		"y": 0,
-		"w": 81,
-		"h": 11
+		"w": 34,
+		"h": 42
 	},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {
+		"x": 0,
+		"y": 0,
+		"w": 34,
+		"h": 42
+	},
+	"sourceSize": {
+		"w": 34,
+		"h": 42
+	},
+	"pivot": {
+		"x": 0.5,
+		"y": 0.5
+	}
+},
+	{
+	"filename": "platform.png",
+		"frame": {
+			"x": 68,
+			"y": 0,
+			"w": 81,
+			"h": 11
+		},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":81,"h":11},
@@ -26,7 +51,7 @@
 	{
 		"filename": "score.png",
 		"frame": {
-			"x": 115,
+			"x": 149,
 			"y": 0,
 			"w": 250,
 			"h": 100
@@ -54,10 +79,10 @@
 	"image": "sprites2.png",
 	"format": "RGBA8888",
 	"size": {
-		"w": 365,
+		"w": 399,
 		"h": 100
 	},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:256effbb4d22c5fa3517a6c675256402:8914bc4efe0399b36fbc2618aa87cc68:8d4f35dc44d6882bf65178eb8274681f$"
+	"smartupdate": "$TexturePacker:SmartUpdate:1e5e200f4af30df9227d5a2d2893f279:fe6e070003f6e7c22267a75b84548136:8d4f35dc44d6882bf65178eb8274681f$"
 }
 }
