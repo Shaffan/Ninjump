@@ -41,6 +41,7 @@ var player = {
     update: function () {
 
         if (gamestate === states.Start) {
+            player.x = width / 2 - (player_s.width / 2) + 5;
             this.yvelocity = platforms.velocity;
             this.y = platforms._platforms.map(function (obj) {
                     return obj.y

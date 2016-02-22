@@ -19,6 +19,8 @@ var canvas,
 
 function input(event) {
 
+    player.xvelocity = 0;
+
     if (gamestate === states.Start) {
         gamestate = states.Game;
     }
@@ -53,7 +55,7 @@ function update() {
         best = Math.max(best, score);
         localStorage.setItem("best", best);
     }
-    // Score
+    // increment score
     if (gamestate === states.Game && player.yvelocity < 0) {
         score += increment * multiplier;
     }
@@ -66,6 +68,9 @@ function render() {
 
     platforms.draw(context);
     player.draw(context);
+
+    // Start and score text
+    // TODO: Consider moving to separate page
     var text = null;
     if (gamestate === states.Start) {
         text = context.measureText("Press any button to start");
@@ -88,6 +93,7 @@ function render() {
     width = window.innerWidth;
     height = window.innerHeight;
 
+    // TODO: Remove if I decide to keep this font
     var font = "bold 20px Kristen ITC";
     if (width > 500) {
         width = 400;
