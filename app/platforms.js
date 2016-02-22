@@ -7,7 +7,12 @@ var platforms = {
 
     _platforms: [],
 
-    column: {absLeft: 0, Left: 1, Right: 2, absRight: 3},
+    column: {
+        absLeft: 0,
+        Left: 1,
+        Right: 2,
+        absRight: 3
+    },
 
     reset: function () {
         this._platforms = [];
@@ -29,14 +34,14 @@ var platforms = {
             if (frames % 65 === 0) {
                 var _x = getRandomArbitrary(1, width - platform_s.width - 1);
 
-                var platform = this._platforms.push({
-                    x: _x,
-                    y: -25,
-                    proximity: 0,
-                    closest: false,
-                    width: platform_s.width,
-                    height: platform_s.height
-                });
+                    this._platforms.push({
+                        x: _x,
+                        y: -25,
+                        proximity: 0,
+                        closest: false,
+                        width: platform_s.width,
+                        height: platform_s.height
+                    });
 
                 _x += platform_s.width / 2;
                 if ((_x >= 0 && _x <= width - (width / 4) * 3)) {
