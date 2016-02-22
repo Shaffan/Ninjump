@@ -57,10 +57,10 @@ var player = {
             } else if (this.y + player_s_right.height < height) {
                 this.yvelocity += this.gravity;
             } else {
-                //gamestate = states.Death;
+                gamestate = states.Death;
 
-                this.yvelocity = 0;
-                this.y = height - player_s_right.height;
+                //this.yvelocity = 0;
+                //this.y = height - player_s_right.height;
             }
 
             // movement
