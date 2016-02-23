@@ -7,12 +7,15 @@ var platforms = {
 
     _platforms: [],
 
+    colfeq: [0, 0, 0, 0],
     column: {
         absLeft: 0,
         Left: 1,
         Right: 2,
         absRight: 3
     },
+    coltoggle: [true, true, true, true],
+
 
     reset: function () {
         this._platforms = [];
@@ -32,7 +35,43 @@ var platforms = {
             });
         } else {
             if (frames % 65 === 0) {
-                var _x = getRandomArbitrary(1, width - platform_s.width - 1);
+                var _x = null;
+                if (this.coltoggle[0]) {
+                    _x = getRandomArbitrary(1, width - (width / 4) * 3);
+                } else if (this.coltoggle[1]) {
+                    _x = getRandomArbitrary(width - (width / 4) * 3, width - (width / 4) * 2);
+                } else if (this.coltoggle[2]) {
+                    _x = getRandomArbitrary(width - (width / 4) * 2, width - (width / 4));
+                } else if (this.coltoggle[3]) {
+                    _x = getRandomArbitrary(width - (width / 4), width);
+                }
+
+                // _x = getRandomArbitrary(1, width - platform_s.width - 1);
+
+                var sum = 0;
+                for (i = 0, len = this.colfeq.length; i < len; i++) {
+                    sum += this.colfeq[i];
+                }
+                var avg = sum / this.colfeq.length;
+
+                _x += platform_s.width / 2;
+                if ((_x >= 0 && _x <= width - (width / 4) * 3)) {
+                    console.log("absLeft");
+                    this.colfeq[0]++;
+                    this.coltoggle[0] = this.colfeq[0] < avg;
+                } else if (_x >= width - (width / 4) * 3 && _x <= width - (width / 4) * 2) {
+                    console.log("Left");
+                    this.colfeq[0]++;
+                    this.coltoggle[0] = this.colfeq[1] < avg;
+                } else if (_x >= width - (width / 4) * 2 && _x <= width - (width / 4)) {
+                    console.log("Right");
+                    this.colfeq[2]++;
+                    this.coltoggle[0] = this.colfeq[2] < avg;
+                } else if (_x >= width - (width / 4) && _x <= width) {
+                    console.log("absRight");
+                    this.colfeq[3]++;
+                    this.coltoggle[0] = this.colfeq[3] < avg;
+                }
 
                     this._platforms.push({
                         x: _x,
@@ -43,16 +82,9 @@ var platforms = {
                         height: platform_s.height
                     });
 
-                _x += platform_s.width / 2;
-                if ((_x >= 0 && _x <= width - (width / 4) * 3)) {
-                    console.log("absLeft");
-                } else if (_x >= width - (width / 4) * 3 && _x <= width - (width / 4) * 2) {
-                    console.log("Left");
-                } else if (_x >= width - (width / 4) * 2 && _x <= width - (width / 4)) {
-                    console.log("Right");
-                } else if (_x >= width - (width / 4) && _x <= width) {
-                    console.log("absRight");
-                }
+
+
+
 
             }
             for (i = 0, len = this._platforms.length; i < len; i++) {
@@ -68,6 +100,9 @@ var platforms = {
 
                     platx2 = p.x + platform_s.width,
                     platy2 = p.y + platform_s.height;
+
+
+
 
                 /* Platform Collision */
 
