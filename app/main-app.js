@@ -24,6 +24,8 @@ function input(event) {
     if (gamestate === states.Start && event.type !== 'keyup') {
         gamestate = states.Game;
     } else if (gamestate === states.Death){
+        platforms.reset();
+        score = 0;
         gamestate = states.Start;
     }
 
