@@ -64,10 +64,31 @@ var platforms = {
                 // right side of player
                     px2 = player.direction > 0 ? player.x + player_s_right.width : player.x + player_s_right.width - 15,
                 // player feet
-                    py = player.y + player_s_right.height + player.yvelocity,
+                    py = player.y + player_s_right.height,
 
                     platx2 = p.x + platform_s.width,
                     platy2 = p.y + platform_s.height;
+
+                /*********** Under Development *************/
+
+
+                var yInvEntry, yInvExit,
+                    yEntry, yExit;
+
+                if (py < 0) {
+                    yInvEntry = p.y - py;
+                    yInvExit = (p.y + platform_s.height) - py - player_s_left.height;
+                }
+
+                if (player.yvelocity != 0) {
+                    yEntry = yInvEntry / player.yvelocity;
+                    yExit = yInvExit / player.yvelocity;
+                }
+
+                if (yEntry > yExit )
+
+
+                /*****************************************/
 
                 /* Platform Collision */
 
