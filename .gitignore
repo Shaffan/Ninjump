@@ -1,4 +1,3 @@
-
 # Created by https://www.gitignore.io/api/windows,visualstudiocode,phpstorm
 
 ### Windows ###
@@ -71,3 +70,8 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
+/.idea/.name
+/.idea/Ninjump.iml
+/.idea/encodings.xml
+/.idea/misc.xml
+/.idea/modules.xml
