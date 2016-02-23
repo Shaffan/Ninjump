@@ -6,6 +6,8 @@ var player = {
     x: 0,
     y: 0,
 
+    sprite: null,
+
     gravity: 0.35,
     maxfallspeed: 8,
 
@@ -40,12 +42,14 @@ var player = {
 
     update: function () {
 
+        this.sprite = this.direction > 0 ? player_s_right : player_s_left;
+
         if (gamestate === states.Start) {
-            player.x = width / 2 - (player_s_right.width / 2) + 5;
+            player.x = width / 2 - (this.sprite.width / 2) + 5;
             this.yvelocity = platforms.velocity;
             this.y = platforms._platforms.map(function (obj) {
-                    return obj.y
-                }) - player_s_right.height;
+                return obj.y
+            }) - this.sprite.height;
         } else {
             if (this.yvelocity > 0 && this.yvelocity > this.maxfallspeed) {
                 this.yvelocity = this.maxfallspeed;
@@ -54,13 +58,13 @@ var player = {
             if (this.onplatform) {
                 this.yvelocity = platforms.velocity;
                 this.jumpcount = 0;
-            } else if (this.y + player_s_right.height < height) {
+            } else if (this.y + this.sprite.height < height) {
                 this.yvelocity += this.gravity;
             } else {
                 gamestate = states.Death;
 
                 //this.yvelocity = 0;
-                //this.y = height - player_s_right.height;
+                //this.y = height - this.sprite.height;
             }
 
             // movement
@@ -82,9 +86,9 @@ var player = {
                 this.xvelocity = 0;
                 this.x = 0;
             }
-            if (this.x >= width - (player_s_right.width + this.xvelocity)) {
+            if (this.x >= width - (this.sprite.width + this.xvelocity)) {
                 this.xvelocity = 0;
-                this.x = width - player_s_right.width;
+                this.x = width - this.sprite.width;
             }
 
             // apply values
@@ -93,15 +97,8 @@ var player = {
             this.x += this.xvelocity;
         }
 
-
     },
-
     draw: function (context) {
-        if (this.direction > 0) {
-            player_s_right.draw(context, this.x, this.y);
-        } else {
-            player_s_left.draw(context, this.x, this.y);
-        }
-
+        this.sprite.draw(context, this.x, this.y);
     }
 };

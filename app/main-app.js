@@ -21,8 +21,10 @@ function input(event) {
 
     player.xvelocity = 0;
 
-    if (gamestate === states.Start) {
+    if (gamestate === states.Start && event.type !== 'keyup') {
         gamestate = states.Game;
+    } else if (gamestate === states.Death){
+        gamestate = states.Start;
     }
 
     if (event.which === 37) {
@@ -78,10 +80,13 @@ function render() {
     } else if (gamestate === states.Death) {
         canvas.style.backgroundColor = '#a2b4c3'
         context.font = "bold 12px Kristen ITC";
-        score_s.draw(context, width / 2 - (score_s.width / 2), height / 2 - (score_s.height / 2));
+        score_s.draw(context, width / 2 - (score_s.width / 2), height / 3 - (score_s.height / 2));
         text = context.measureText("Score: " + score + " ");
-        context.fillText("Score: " + score + " ", width / 2 - text.width, height / 2 + (score_s.height / 3));
-        context.fillText("  Best: " + best, width / 2, height / 2 + (score_s.height / 3));
+        context.fillText("Score: " + score + " ", width / 2 - text.width, height / 3 + (score_s.height / 3));
+        context.fillText("  Best: " + best, width / 2, height / 3 + (score_s.height / 3));
+        context.font = "bold 20px Kristen ITC";
+        text = context.measureText("Press any key to restart");
+        context.fillText("Press any key to restart", width / 2 - text.width / 2, height / 2 - 10);
     } else if (gamestate = states.Game) {
         text = context.measureText(score.toString());
         context.fillText(score.toString(), width - (width / 45) - text.width + 2, height / 100 + 15);
