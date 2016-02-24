@@ -11,7 +11,7 @@ var player = {
     gravity: 0.35,
     maxfallspeed: 8,
 
-    _jump: 6.5,
+    _jump: 6,
     jumpcount: 0,
 
     moving: false,

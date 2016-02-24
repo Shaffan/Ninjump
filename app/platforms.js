@@ -8,14 +8,7 @@ var platforms = {
     _platforms: [],
 
     colfeq: [0, 0, 0, 0],
-    column: {
-        absLeft: 0,
-        Left: 1,
-        Right: 2,
-        absRight: 3
-    },
-    coltoggle: [true, true, true, true],
-
+    spawncol: [true, true, true, true],
 
     reset: function () {
         this._platforms = [];
@@ -24,7 +17,7 @@ var platforms = {
     update: function () {
 
         if (gamestate === states.Start) {
-            this._platforms.splice(0, this._platforms.length);
+            this.reset();
 
             this._platforms.push({
                 x: width / 2 - (platform_s.width / 2),
@@ -35,7 +28,7 @@ var platforms = {
             });
         } else {
             if (frames % 65 === 0) {
-                var _x = null,
+                var _x,
                     
                     colabsleft = 1,
                     colleft = width - (width / 4) * 3,
@@ -43,13 +36,13 @@ var platforms = {
                     colright = width - (width / 4),
                     colabsright = width;
                 
-                if (this.coltoggle[0]) {
+                if (this.spawncol[0]) {
                     _x = getRandomArbitrary(colabsleft, colleft);
-                } else if (this.coltoggle[1]) {
+                } else if (this.spawncol[1]) {
                     _x = getRandomArbitrary(colleft, colcenter);
-                } else if (this.coltoggle[2]) {
+                } else if (this.spawncol[2]) {
                     _x = getRandomArbitrary(colcenter, colright);
-                } else if (this.coltoggle[3]) {
+                } else if (this.spawncol[3]) {
                     _x = getRandomArbitrary(colright, colabsright);
                 }
 
@@ -61,21 +54,17 @@ var platforms = {
 
                 _x += platform_s.width / 2;
                 if (_x >= colabsleft && _x <= colleft) {
-                    console.log("absLeft");
                     this.colfeq[0]++;
-                    this.coltoggle[0] = this.colfeq[0] < avg;
+                    this.spawncol[0] = this.colfeq[0] < avg;
                 } else if (_x >= colleft && _x <= colcenter) {
-                    console.log("Left");
                     this.colfeq[0]++;
-                    this.coltoggle[0] = this.colfeq[1] < avg;
+                    this.spawncol[0] = this.colfeq[1] < avg;
                 } else if (_x >= colcenter && _x <= colright) {
-                    console.log("Right");
                     this.colfeq[2]++;
-                    this.coltoggle[0] = this.colfeq[2] < avg;
+                    this.spawncol[0] = this.colfeq[2] < avg;
                 } else if (_x >= colright && _x <= colabsright) {
-                    console.log("absRight");
                     this.colfeq[3]++;
-                    this.coltoggle[0] = this.colfeq[3] < avg;
+                    this.spawncol[0] = this.colfeq[3] < avg;
                 }
 
                 this._platforms.push({
@@ -112,7 +101,7 @@ var platforms = {
     },
 
     draw: function (context) {
-        for (var i = 0, len = this._platforms.length; i < len; i++) {
+        for (i = 0, len = this._platforms.length; i < len; i++) {
             var p = this._platforms[i];
             platform_s.draw(context, p.x, p.y);
         }
@@ -133,7 +122,7 @@ function collision(p) {
         platx2 = p.x + platform_s.width,
         platy2 = p.y + platform_s.height;
 
-    if (((px > p.x && px < platx2) || (px2 > p.x && px2 < platx2)) && (pyv >= p.y && pyv <= platy2) && py <= p.y) {
+    if (((px > p.x && px < platx2) || (px2 > p.x && px2 < platx2)) && (pyv >= p.y && pyv <= platy2) && (py <= p.y) && (player.yvelocity > 0)) {
         return true;
     }
 };

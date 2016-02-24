@@ -1,9 +1,9 @@
-- get a more even x distribution for platform spawns
-- add a random element to distance between platforms
 - fix movement physics
+- add art
 - make mobile-compatible
 - package using phonegap
 
+Done - get a more even x distribution for platform spawns
 Done - implement score
 Done - add game states (so that player starts on platform in the middle of the screen instead of on the ground)
 Done - add collision with top of platforms (find a way to narrow collision detection to closest platform)
