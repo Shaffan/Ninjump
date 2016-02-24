@@ -96,7 +96,8 @@ var platforms = {
                 // right side of player
                     px2 = player.direction > 0 ? player.x + player_s_right.width : player.x + player_s_right.width - 15,
                 // player feet
-                    py = player.y + player_s_right.height + player.yvelocity,
+                    py = player.y + player_s_left.height;
+                    pyv = player.y + player_s_right.height + player.yvelocity,
 
                     platx2 = p.x + platform_s.width,
                     platy2 = p.y + platform_s.height;
@@ -116,7 +117,7 @@ var platforms = {
 
                 // If this is the closest platform to the player
                 if (this.closest) {
-                    if (((px > p.x && px < platx2) || (px2 > p.x && px2 < platx2)) && (py >= p.y && py <= platy2) && player.yvelocity > 0) {
+                    if (((px > p.x && px < platx2) || (px2 > p.x && px2 < platx2)) && (pyv >= p.y && pyv <= platy2) && py <= p.y) {
                         player.onplatform = true;
                         player.y = p.y - player_s_right.height;
                     } else {

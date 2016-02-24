@@ -25,7 +25,6 @@ var player = {
 
     jump: function () {
 
-
         // TODO: Refactor
 
         if (this.jumpcount < 2) {
