@@ -7,9 +7,6 @@ var platforms = {
 
     _platforms: [],
 
-    colfeq: [0, 0, 0, 0],
-    spawncol: [true, true, true, true],
-
     reset: function () {
         this._platforms = [];
     },
@@ -19,44 +16,24 @@ var platforms = {
         if (gamestate === states.Start) {
             this.reset();
 
-            this._platforms.push({
-                x: width / 2 - (platform_s.width / 2),
-                y: height / 9,
-                proximity: 0,
-                width: platform_s.width,
-                height: platform_s.height
-            });
+            this._platforms.push(new Platform(width / 2 - (platform_s.width / 2), height / 9));
         } else {
             if (frames % 65 === 0) {
                 var _x = getRandomArbitrary(1, width - platform_s.width - 1);
 
-                this._platforms.push({
-                    x: _x,
-                    y: -25,
-                    proximity: 0,
-                    closest: false,
-                    width: platform_s.width,
-                    height: platform_s.height
-                });
-                
-                
-                if (Math.ceil(getRandomArbitrary(1, 11)) === 10) {
-                    var separate = false;
+                this._platforms.push(new Platform(_x, -25));
+
+                // 20% chance to spawn a second platform
+                if (Math.ceil(getRandomArbitrary(0, 2)) === 2) {
+                    var overlapping = true;
                     var oldx = _x;
-                    while (separate == false) {
+                    while (overlapping) {
                         _x = getRandomArbitrary(1, width - platform_s.width - 1);
-                        separate = (_x + platform_s.width < oldx || oldx + platform_s.width < _x );    
+                        overlapping = (_x < oldx + platform_s.width && _x + platform_s.width > oldx || _x < oldx + platform_s.width && _x > oldx);
                     }
-                    
-                    if (separate) {
-                        this._platforms.push({
-                            x: _x,
-                            y: -25,
-                            proximity: 0,
-                            closest: false,
-                            width: platform_s.width,
-                            height: platform_s.height
-                        });
+
+                    if (!overlapping) {
+                        this._platforms.push(new Platform(_x, -25));
                     }
                 }
 
@@ -93,12 +70,24 @@ var platforms = {
 
 };
 
+// Platform constructor
+function Platform(x, y) {
+    this.x = x;
+    this.y = y;
+    this.proximity = 0;
+    this.closes = false;
+    this.width = platform_s.width;
+    this.height = platform_s.height;
+}
+
 // Collision detection
 function collision(p) {
 
+    // offset of 15 to account for player's bandana 
     var px = player.direction > 0 ? player.x + 15 : player.x,
         // right side of player
         px2 = player.direction > 0 ? player.x + player_s_right.width : player.x + player_s_right.width - 15,
+        
         // player feet
         py = player.y + player_s_left.height,
         pyv = player.y + player_s_right.height + player.yvelocity,
