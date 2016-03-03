@@ -28,44 +28,7 @@ var platforms = {
             });
         } else {
             if (frames % 65 === 0) {
-                var _x,
-                    
-                    colabsleft = 1,
-                    colleft = width - (width / 4) * 3,
-                    colcenter = width - (width / 4) * 2,
-                    colright = width - (width / 4),
-                    colabsright = width;
-                
-                if (this.spawncol[0]) {
-                    _x = getRandomArbitrary(colabsleft, colleft);
-                } else if (this.spawncol[1]) {
-                    _x = getRandomArbitrary(colleft, colcenter);
-                } else if (this.spawncol[2]) {
-                    _x = getRandomArbitrary(colcenter, colright);
-                } else if (this.spawncol[3]) {
-                    _x = getRandomArbitrary(colright, colabsright);
-                }
-
-                var sum = 0;
-                for (i = 0, len = this.colfeq.length; i < len; i++) {
-                    sum += this.colfeq[i];
-                }
-                var avg = sum / this.colfeq.length;
-
-                _x += platform_s.width / 2;
-                if (_x >= colabsleft && _x <= colleft) {
-                    this.colfeq[0]++;
-                    this.spawncol[0] = this.colfeq[0] < avg;
-                } else if (_x >= colleft && _x <= colcenter) {
-                    this.colfeq[0]++;
-                    this.spawncol[0] = this.colfeq[1] < avg;
-                } else if (_x >= colcenter && _x <= colright) {
-                    this.colfeq[2]++;
-                    this.spawncol[0] = this.colfeq[2] < avg;
-                } else if (_x >= colright && _x <= colabsright) {
-                    this.colfeq[3]++;
-                    this.spawncol[0] = this.colfeq[3] < avg;
-                }
+                var _x = getRandomArbitrary(1, width - platform_s.width - 1);
 
                 this._platforms.push({
                     x: _x,
@@ -75,6 +38,27 @@ var platforms = {
                     width: platform_s.width,
                     height: platform_s.height
                 });
+                
+                
+                if (Math.ceil(getRandomArbitrary(1, 11)) === 10) {
+                    var separate = false;
+                    var oldx = _x;
+                    while (separate == false) {
+                        _x = getRandomArbitrary(1, width - platform_s.width - 1);
+                        separate = (_x + platform_s.width < oldx || oldx + platform_s.width < _x );    
+                    }
+                    
+                    if (separate) {
+                        this._platforms.push({
+                            x: _x,
+                            y: -25,
+                            proximity: 0,
+                            closest: false,
+                            width: platform_s.width,
+                            height: platform_s.height
+                        });
+                    }
+                }
 
             }
             for (i = 0, len = this._platforms.length; i < len; i++) {
@@ -122,7 +106,7 @@ function collision(p) {
         platx2 = p.x + platform_s.width,
         platy2 = p.y + platform_s.height;
 
-    if (((px > p.x && px < platx2) || (px2 > p.x && px2 < platx2)) && (pyv >= p.y && pyv <= platy2) && (py <= p.y) && (player.yvelocity > 0)) {
+    if (((px > p.x && px < platx2) || (px2 > p.x && px2 < platx2)) && (pyv >= p.y && pyv <= platy2) && (py <= p.y)) {
         return true;
     }
 };
