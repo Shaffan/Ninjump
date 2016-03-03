@@ -1,3 +1,4 @@
+- create columns for platforms and select a random one for spawn
 - fix movement physics
 - add art
 - make mobile-compatible

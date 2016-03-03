@@ -95,7 +95,7 @@ function collision(p) {
         platx2 = p.x + platform_s.width,
         platy2 = p.y + platform_s.height;
 
-    if (((px > p.x && px < platx2) || (px2 > p.x && px2 < platx2)) && (pyv >= p.y && pyv <= platy2) && (py <= p.y)) {
+    if (((px > p.x && px < platx2) || (px2 > p.x && px2 < platx2)) && (pyv >= p.y && pyv <= platy2) && (py <= p.y) && player.yvelocity > 0) {
         return true;
     }
 };
