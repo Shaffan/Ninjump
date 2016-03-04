@@ -56,7 +56,7 @@ var platforms = {
                 
                 p.proximity = Math.abs(p.x / 2 - player.x / 2) + Math.abs(p.y / 2 - player.y / 2);
                 
-                if (closest(p)) {
+                if (p.closest()) {
                     if (p.collision()) {
                         player.onplatform = true;
                         player.y = p.y - player_s_right.height;
@@ -117,12 +117,12 @@ Platform.prototype.collision = function() {
     }
 };
 
-// Calculate proximity to player and get closest proximity
-function closest(p) {
+// Get closest proximity and determine whether platform is the closest one to the player
+Platform.prototype.closest = function() {
     
     var minprox = Math.min.apply(Math, platforms._platforms.map(function (obj) {
         return obj.proximity;
     }));
 
-    return p.proximity === minprox;
+    return this.proximity === minprox;
 }
