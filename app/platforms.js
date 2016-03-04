@@ -7,11 +7,11 @@ var platforms = {
 
     _platforms: [],
 
-    reset: function() {
+    reset: function () {
         this._platforms = [];
     },
 
-    update: function() {
+    update: function () {
 
         if (gamestate === states.Start) {
             this.reset();
@@ -35,20 +35,20 @@ var platforms = {
                     if (!overlapping) {
                         this._platforms.push(new Platform(_x, -25));
                     }
-                    
+
+                    // 25% chance to spawn an iobject
                     if (Math.ceil(getRandomArbitrary(0, 4)) === 1) {
                         var len = this._platforms.length;
                         var x = this._platforms[len - 1].x + platform_s.width / 2 - powerup_s.width / 2;
                         var y = this._platforms[len - 1].y - powerup_s.height;
+                        // 33% chance to spawn a powerup / 66% chance to spawn a dangerous object
                         if (Math.ceil(getRandomArbitrary(0, 3)) === 1) {
-                            iobjects.spawn('powerup', x, y);    
+                            iobjects.spawn('powerup', x, y);
                         } else {
-                            iobjects.spawn('danger', x, y); 
+                            iobjects.spawn('danger', x, y);
                         }
-                        
                     }
                 }
-
             }
             for (i = 0, len = this._platforms.length; i < len; i++) {
                 var p = this._platforms[i];
@@ -73,7 +73,7 @@ var platforms = {
         }
     },
 
-    draw: function(context) {
+    draw: function (context) {
         for (i = 0, len = this._platforms.length; i < len; i++) {
             var p = this._platforms[i];
             platform_s.draw(context, p.x, p.y);
@@ -97,7 +97,7 @@ function collision(p) {
     var px = player.direction > 0 ? player.x + 15 : player.x,
         // right side of player
         px2 = player.direction > 0 ? player.x + player_s_right.width : player.x + player_s_right.width - 15,
-        
+
         // player feet
         py = player.y + player_s_left.height,
         pyv = player.y + player_s_right.height + player.yvelocity,
