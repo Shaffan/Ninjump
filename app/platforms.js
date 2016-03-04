@@ -23,10 +23,11 @@ var platforms = {
 
                 this._platforms.push(new Platform(_x, -25));
 
-                // 20% chance to spawn a second platform
+                // 50% chance to spawn a second platform
                 if (Math.ceil(getRandomArbitrary(0, 2)) === 2) {
                     var overlapping = true;
                     var oldx = _x;
+                    // TODO: Refactor
                     while (overlapping) {
                         _x = getRandomArbitrary(1, width - platform_s.width - 1);
                         overlapping = (_x < oldx + platform_s.width && _x + platform_s.width > oldx || _x < oldx + platform_s.width && _x > oldx);
@@ -36,13 +37,13 @@ var platforms = {
                         this._platforms.push(new Platform(_x, -25));
                     }
 
-                    // 25% chance to spawn an iobject
-                    if (Math.ceil(getRandomArbitrary(0, 4)) === 1) {
+                    // 50% chance to spawn an iobject
+                    if (Math.ceil(getRandomArbitrary(0, 2)) === 1) {
                         var len = this._platforms.length;
                         var x = this._platforms[len - 1].x + platform_s.width / 2 - powerup_s.width / 2;
                         var y = this._platforms[len - 1].y - powerup_s.height;
-                        // 33% chance to spawn a powerup / 66% chance to spawn a dangerous object
-                        if (Math.ceil(getRandomArbitrary(0, 3)) === 1) {
+                        // 25% chance to spawn a powerup / 75% chance to spawn a dangerous object
+                        if (Math.ceil(getRandomArbitrary(0, 4)) === 1) {
                             iobjects.spawn('powerup', x, y);
                         } else {
                             iobjects.spawn('danger', x, y);
@@ -52,6 +53,8 @@ var platforms = {
             }
             for (i = 0, len = this._platforms.length; i < len; i++) {
                 var p = this._platforms[i];
+                
+                p.proximity = Math.abs(p.x / 2 - player.x / 2) + Math.abs(p.y / 2 - player.y / 2);
 
                 if (closest(p)) {
                     if (collision(p)) {
@@ -103,19 +106,23 @@ function collision(p) {
         pyv = player.y + player_s_right.height + player.yvelocity,
 
         platx2 = p.x + platform_s.width,
-        platy2 = p.y + platform_s.height;
+        platy = p.y + platforms.velocity,
+        platy2 = p.y + platform_s.height + platforms.velocity;
+    
+        px -= player.xvelocity;
+        px2 += player.xvelocity;
 
-    if (((px > p.x && px < platx2) || (px2 > p.x && px2 < platx2)) && (pyv >= p.y && pyv <= platy2) && (py <= p.y) && player.yvelocity > 0) {
+    if (((px > p.x && px < platx2) || (px2 > p.x && px2 < platx2)) && (pyv >= platy && pyv <= platy2) && (py <= p.y) && player.yvelocity > 0) {
         return true;
     }
 };
 
 // Calculate proximity to player and get closest proximity
 function closest(p) {
-    p.proximity = Math.abs(p.x / 2 - player.x / 2) + Math.abs(p.y / 2 - player.y / 2);
+    
     var minprox = Math.min.apply(Math, platforms._platforms.map(function (obj) {
         return obj.proximity;
     }));
 
-    return p.proximity == minprox;
+    return p.proximity === minprox;
 }

@@ -62,6 +62,7 @@ var player = {
             } else {
                 gamestate = states.Death;
 
+                // TODO: Remove eventually
                 //this.yvelocity = 0;
                 //this.y = height - this.sprite.height;
             }
