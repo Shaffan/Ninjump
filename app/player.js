@@ -97,6 +97,7 @@ var player = {
         }
 
     },
+    
     draw: function (context) {
         this.sprite.draw(context, this.x, this.y);
     }

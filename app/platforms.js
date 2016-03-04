@@ -3,15 +3,15 @@
  *********************************/
 var platforms = {
 
-    velocity: 3.5,
+    velocity: 3,
 
     _platforms: [],
 
-    reset: function () {
+    reset: function() {
         this._platforms = [];
     },
 
-    update: function () {
+    update: function() {
 
         if (gamestate === states.Start) {
             this.reset();
@@ -34,6 +34,18 @@ var platforms = {
 
                     if (!overlapping) {
                         this._platforms.push(new Platform(_x, -25));
+                    }
+                    
+                    if (Math.ceil(getRandomArbitrary(0, 4)) === 1) {
+                        var len = this._platforms.length;
+                        var x = this._platforms[len - 1].x + platform_s.width / 2 - powerup_s.width / 2;
+                        var y = this._platforms[len - 1].y - powerup_s.height;
+                        if (Math.ceil(getRandomArbitrary(0, 3)) === 1) {
+                            iobjects.spawn('powerup', x, y);    
+                        } else {
+                            iobjects.spawn('danger', x, y); 
+                        }
+                        
                     }
                 }
 
@@ -61,7 +73,7 @@ var platforms = {
         }
     },
 
-    draw: function (context) {
+    draw: function(context) {
         for (i = 0, len = this._platforms.length; i < len; i++) {
             var p = this._platforms[i];
             platform_s.draw(context, p.x, p.y);
@@ -76,8 +88,6 @@ function Platform(x, y) {
     this.y = y;
     this.proximity = 0;
     this.closes = false;
-    this.width = platform_s.width;
-    this.height = platform_s.height;
 }
 
 // Collision detection

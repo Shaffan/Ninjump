@@ -25,6 +25,7 @@ function input(event) {
         gamestate = states.Game;
     } else if (gamestate === states.Death){
         platforms.reset();
+        iobjects.reset();
         score = 0;
         gamestate = states.Start;
     }
@@ -55,6 +56,7 @@ function update() {
     frames++;
     if (gamestate !== states.Death) {
         platforms.update();
+        iobjects.update();
     } else {
         best = Math.max(best, score);
         localStorage.setItem("best", best);
@@ -71,6 +73,7 @@ function render() {
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     platforms.draw(context);
+    iobjects.draw(context);
     player.draw(context);
 
     // Start and score text
