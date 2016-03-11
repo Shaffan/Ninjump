@@ -1,6 +1,3 @@
-/*********************************
- * Copyright © 2016 Stefan Horne *
- *********************************/
 'use strict';
 var canvas,
     context,
