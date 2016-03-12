@@ -16,17 +16,11 @@ ImgObj.prototype.draw = function (context, x, y) {
 
 function loadSprites(img) {
 
-    player_s_left = new ImgObj(img, 0, 0, 34, 42);
-    player_s_right = new ImgObj(img, 34, 0, 34, 42);
-    platform_s = new ImgObj(img, 68, 0, 81, 11);
-    score_s = new ImgObj(img, 149, 0, 250, 100);
-    
-    // TODO: Add to sprite sheet
-    var img1 = new Image(),
-        img2 = new Image();
-    img1.src = 'assets/danger.png';
-    img2.src = 'assets/powerup.png';
-    danger_s = new ImgObj(img1, 0, 0, 20, 20);
-    powerup_s = new ImgObj(img2, 0, 0, 20, 20);
+    player_s_left = new ImgObj(img, 20, 0, 34, 42);
+    player_s_right = new ImgObj(img, 54, 0, 34, 42);
+    platform_s = new ImgObj(img, 88, 0, 83, 12);
+    score_s = new ImgObj(img, 191, 0, 250, 100);
+    danger_s = new ImgObj(img, 0, 0, 20, 20);
+    powerup_s = new ImgObj(img, 171, 0, 20, 20);
      
 } 
