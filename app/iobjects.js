@@ -1,6 +1,3 @@
-/*********************************
- * Copyright © 2016 Stefan Horne *
- *********************************/
 var iobjects = {
     x: 0,
     y: 0,
@@ -98,6 +95,7 @@ Iobject.prototype.collision = function() {
     if (((px > this.x && px < objx2) || (px2 > this.x && px2 < objx2)) && ((py > this.y && py < objy2) || (py2 >= this.y && py2 <= objy2))) {
         return true;
     }
+<<<<<<< HEAD
 }
 
 Iobject.prototype.closest = function() {
@@ -108,3 +106,6 @@ Iobject.prototype.closest = function() {
 
     return this.proximity === minprox;
 }
+=======
+};*/
+>>>>>>> cc09cd8fdd269b536785c3e58adff783279b5fc5
