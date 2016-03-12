@@ -26,11 +26,11 @@ var platforms = {
                 // 50% chance to spawn a second platform
                 if (Math.ceil(getRandomArbitrary(0, 2)) === 2) {
                     var overlapping = true;
-                    var oldx = _x;
-                    // TODO: Refactor
+                    var candidatex = _x;
+                    
                     while (overlapping) {
                         _x = getRandomArbitrary(1, width - platform_s.width - 1);
-                        overlapping = (_x < oldx + platform_s.width && _x + platform_s.width > oldx || _x < oldx + platform_s.width && _x > oldx);
+                        overlapping = (_x < candidatex + platform_s.width && _x + platform_s.width > candidatex || _x < candidatex + platform_s.width && _x > candidatex);
                     }
 
                     if (!overlapping) {
@@ -54,9 +54,10 @@ var platforms = {
             for (i = 0, len = this._platforms.length; i < len; i++) {
                 var p = this._platforms[i];
                 
-                p.proximity = Math.abs(p.x / 2 - player.x / 2) + Math.abs(p.y / 2 - player.y / 2);
-                
-                if (p.closest()) {
+                p.proximity = calcProx(p.x, p.y, platform_s);
+                p.isClosest = p.closest();
+
+                if (p.isClosest) {
                     if (p.collision()) {
                         player.onplatform = true;
                         player.y = p.y - player_s_right.height;
@@ -65,7 +66,6 @@ var platforms = {
                     }
                 }
 
-                // Platform movement and remove platforms after they leave the canvas
                 p.y += this.velocity;
                 if (p.y > height) {
                     this._platforms.splice(i, 1);
@@ -79,7 +79,7 @@ var platforms = {
     draw: function (context) {
         for (i = 0, len = this._platforms.length; i < len; i++) {
             var p = this._platforms[i];
-            platform_s.draw(context, p.x, p.y);
+            platform_s.draw(context, p.x, p.y);            
         }
     }
 
@@ -90,36 +90,35 @@ function Platform(x, y) {
     this.x = x;
     this.y = y;
     this.proximity = 0;
-    this.closes = false;
+    this.isClosest = false;
+}
+
+function calcProx(x, y, sprite) {
+    var a = (player.x + player.sprite.width / 2) - (x + sprite.width / 2);
+    var b = (player.y + player.sprite.height / 2) - (y + sprite.height / 2);
+    
+    return Math.sqrt( a*a + b*b );
 }
 
 // Collision detection
 Platform.prototype.collision = function() {
 
-    // offset of 15 to account for player's bandana 
     var px = player.direction > 0 ? player.x + 15 : player.x,
-        // right side of player
         px2 = player.direction > 0 ? player.x + player_s_right.width : player.x + player_s_right.width - 15,
-
-        // player feet
         py = player.y + player_s_left.height,
-        pyv = player.y + player_s_right.height + player.yvelocity,
+        py2 = player.y + player_s_right.height + player.yvelocity,
 
         platx2 = this.x + platform_s.width,
-        platy = this.y + platforms.velocity,
-        platy2 = this.y + platform_s.height + platforms.velocity;
-    
-        px -= player.xvelocity;
-        px2 += player.xvelocity;
+        platy2 = this.y + platform_s.height;
 
-    if (((px > this.x && px < platx2) || (px2 > this.x && px2 < platx2)) && (pyv >= platy && pyv <= platy2) && (py <= this.y) && player.yvelocity > 0) {
+    if (((px > this.x && px < platx2) || (px2 > this.x && px2 < platx2)) && (py2 >= this.y && py2 <= platy2) && py <= this.y) {
         return true;
     }
 };
 
-// Get closest proximity and determine whether platform is the closest one to the player
+// Calculate proximity to player and get closest proximity
 Platform.prototype.closest = function() {
-    
+        
     var minprox = Math.min.apply(Math, platforms._platforms.map(function (obj) {
         return obj.proximity;
     }));

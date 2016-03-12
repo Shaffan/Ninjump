@@ -42,7 +42,6 @@ function input(event) {
     // prevent scroll etc
     event.preventDefault();
 }
-
 function run() {
     var loop = function () {
         update();
@@ -51,30 +50,47 @@ function run() {
     };
     window.requestAnimationFrame(loop);
 }
-
 function update() {
+    //if (frames % 2 == 0 || frames == 0) {
+        if (gamestate !== states.Death) {
+            platforms.update();
+            iobjects.update();
+        } else {
+            best = Math.max(best, score);
+            localStorage.setItem("best", best);
+        }
+        // increment score
+        if (gamestate === states.Game && player.yvelocity < 0) {
+            score += increment * multiplier;
+        }
+        player.update();
+   // }
+    
     frames++;
-    if (gamestate !== states.Death) {
-        platforms.update();
-        iobjects.update();
-    } else {
-        best = Math.max(best, score);
-        localStorage.setItem("best", best);
-    }
-    // increment score
-    if (gamestate === states.Game && player.yvelocity < 0) {
-        score += increment * multiplier;
-    }
-    player.update();
-
 }
 
 function render() {
     context.clearRect(0, 0, canvas.width, canvas.height);
-
+    
+    // TODO: Remove after testing
+    context.beginPath();
+    context.rect(player.x + 1, player.y + 1, player_s_left.width - 1, player_s_left.height - 1);
+    context.lineWidth = 1;
+    context.strokeStyle = "#b3b3b3";
+    context.stroke();
+    context.closePath();
+    
+    context.beginPath();
+    context.rect(player.x, player.y - 1, player_s_left.width - 1, player_s_left.height + player.yvelocity - 1);
+    context.lineWidth = 1;
+    context.strokeStyle = "#33cc33";
+    context.stroke();
+    context.closePath();
+    
     platforms.draw(context);
     iobjects.draw(context);
     player.draw(context);
+    
 
     // Start and score text
     // TODO: Consider moving to separate page
@@ -92,8 +108,8 @@ function render() {
         text = context.measureText("Press any key to restart");
         context.fillText("Press any key to restart", width / 2 - text.width / 2, height / 2 - 10);
     } else if (gamestate = states.Game) {
-        text = context.measureText(score.toString());
-        context.fillText(score.toString(), width - (width / 45) - text.width + 2, height / 100 + 15);
+        text = context.measureText(score.toString() + ' x' + multiplier.toString());
+        context.fillText(score.toString() + ' x' + multiplier.toString(), width - (width / 45) - text.width + 2, height / 100 + 15);
     }
 }
 

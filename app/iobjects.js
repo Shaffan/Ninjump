@@ -26,7 +26,23 @@ var iobjects = {
                 for (i = 0, len = this._iobjects.length; i < len; i++) {
                     var o = this._iobjects[i];
                     
+                    o.proximity = calcProx(o.x, o.y, danger_s);
+                    o.isClosest = o.closest();
                     
+                    if (o.isClosest) {
+                        if (o.collision()) {
+                            this._iobjects.splice(i, 1);
+                            i--;
+                            len--;
+                            
+                            if (o.type === 'powerup') {
+                                console.log('That was a ' + o.type);
+                                multiplier += 1;
+                            } else {
+                                multiplier = 1;
+                            }
+                        }
+                    }
 
                     o.y += this.velocity;
                     if (o.y > height) {
@@ -52,9 +68,11 @@ function Iobject(x, y, type) {
     this.x = x;
     this.y = y;
     this.type = type;
+    this.proximity = 0;
+    this.isClosest = false;
 }
 
-/*function collision(o) {
+Iobject.prototype.collision = function() {
 
     // offset of 15 to account for player's bandana 
     var px = player.direction > 0 ? player.x + 15 : player.x,
@@ -65,8 +83,8 @@ function Iobject(x, y, type) {
         py = player.y + player_s_left.height,
         py2 = player.y + player_s_right.height + player.yvelocity,
 
-        objx2 = o.x + powerup_s.width,
-        objy2 = o.y + powerup_s.height;
+        objx2 = this.x + powerup_s.width,
+        objy2 = this.y + powerup_s.height;
     
     px -= player.xvelocity;
     px2 += player.xvelocity;
@@ -77,7 +95,16 @@ function Iobject(x, y, type) {
     py += player.sprite.height / 4;
     py2 -= player.sprite.height / 4;
 
-    if (((px > o.x && px < objx2) || (px2 > o.x && px2 < objx2)) && ((py > o.y && py < objy2) || (py2 >= o.y && py2 <= objy2))) {
+    if (((px > this.x && px < objx2) || (px2 > this.x && px2 < objx2)) && ((py > this.y && py < objy2) || (py2 >= this.y && py2 <= objy2))) {
         return true;
     }
-};*/
+}
+
+Iobject.prototype.closest = function() {
+        
+    var minprox = Math.min.apply(Math, iobjects._iobjects.map(function (obj) {
+        return obj.proximity;
+    }));
+
+    return this.proximity === minprox;
+}
