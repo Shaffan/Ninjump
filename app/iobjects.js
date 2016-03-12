@@ -22,22 +22,17 @@ var iobjects = {
             if (this._iobjects.length) {
                 for (i = 0, len = this._iobjects.length; i < len; i++) {
                     var o = this._iobjects[i];
-                    
+
                     o.proximity = calcProx(o.x, o.y, danger_s);
                     o.isClosest = o.closest();
-                    
+
                     if (o.isClosest) {
                         if (o.collision()) {
                             this._iobjects.splice(i, 1);
                             i--;
                             len--;
-                            
-                            if (o.type === 'powerup') {
-                                console.log('That was a ' + o.type);
-                                multiplier += 1;
-                            } else {
-                                multiplier = 1;
-                            }
+
+                            multiplier = o.type === 'powerup' ? multiplier + 1 : 1;
                         }
                     }
 
@@ -69,7 +64,7 @@ function Iobject(x, y, type) {
     this.isClosest = false;
 }
 
-Iobject.prototype.collision = function() {
+Iobject.prototype.collision = function () {
 
     // offset of 15 to account for player's bandana 
     var px = player.direction > 0 ? player.x + 15 : player.x,
@@ -82,30 +77,26 @@ Iobject.prototype.collision = function() {
 
         objx2 = this.x + powerup_s.width,
         objy2 = this.y + powerup_s.height;
-    
+
     px -= player.xvelocity;
     px2 += player.xvelocity;
-    
+
     px += player.sprite.width / 4;
     px2 -= player.sprite.width / 4;
-    
+
     py += player.sprite.height / 4;
     py2 -= player.sprite.height / 4;
 
     if (((px > this.x && px < objx2) || (px2 > this.x && px2 < objx2)) && ((py > this.y && py < objy2) || (py2 >= this.y && py2 <= objy2))) {
         return true;
     }
-<<<<<<< HEAD
 }
 
-Iobject.prototype.closest = function() {
-        
+Iobject.prototype.closest = function () {
+
     var minprox = Math.min.apply(Math, iobjects._iobjects.map(function (obj) {
         return obj.proximity;
     }));
 
     return this.proximity === minprox;
-}
-=======
-};*/
->>>>>>> cc09cd8fdd269b536785c3e58adff783279b5fc5
+};

@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>3</int>
         <key>texturePackerVersion</key>
-        <string>4.0.1</string>
+        <string>4.0.2</string>
         <key>fileName</key>
         <string>E:/Software Dev/GameDev/Ninjump/assets/project files/ninja.tps</string>
         <key>autoSDSettings</key>
@@ -147,7 +147,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../sprites2.json</filename>
+                <filename>../sprites.json</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -192,9 +192,12 @@
         </struct>
         <key>fileList</key>
         <array>
-            <filename>ninja2.png</filename>
             <filename>platform.png</filename>
             <filename>../score.png</filename>
+            <filename>ninja_left.png</filename>
+            <filename>ninja_right.png</filename>
+            <filename>../danger.png</filename>
+            <filename>../powerup.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

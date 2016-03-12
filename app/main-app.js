@@ -69,21 +69,6 @@ function update() {
 function render() {
     context.clearRect(0, 0, canvas.width, canvas.height);
     
-    // TODO: Remove after testing
-    context.beginPath();
-    context.rect(player.x + 1, player.y + 1, player_s_left.width - 1, player_s_left.height - 1);
-    context.lineWidth = 1;
-    context.strokeStyle = "#b3b3b3";
-    context.stroke();
-    context.closePath();
-    
-    context.beginPath();
-    context.rect(player.x, player.y - 1, player_s_left.width - 1, player_s_left.height + player.yvelocity - 1);
-    context.lineWidth = 1;
-    context.strokeStyle = "#33cc33";
-    context.stroke();
-    context.closePath();
-    
     platforms.draw(context);
     iobjects.draw(context);
     player.draw(context);
@@ -96,12 +81,12 @@ function render() {
         text = context.measureText("Press any button to start");
         context.fillText("Press any button to start", width / 2 - (text.width / 2), height / 2);
     } else if (gamestate === states.Death) {
-        context.font = "bold 12px Kristen ITC";
+        context.font = "bold 12px Fredoka One";
         score_s.draw(context, width / 2 - (score_s.width / 2), height / 3 - (score_s.height / 2));
         text = context.measureText("Score: " + score + " ");
         context.fillText("Score: " + score + " ", width / 2 - text.width, height / 3 + (score_s.height / 3));
         context.fillText("  Best: " + best, width / 2, height / 3 + (score_s.height / 3));
-        context.font = "bold 20px Kristen ITC";
+        context.font = "bold 20px Fredoka One";
         text = context.measureText("Press any key to restart");
         context.fillText("Press any key to restart", width / 2 - text.width / 2, height / 2 - 10);
     } else if (gamestate = states.Game) {
@@ -114,13 +99,11 @@ function render() {
 
     width = window.innerWidth;
     height = window.innerHeight;
-
-    // TODO: Remove if I decide to keep this font
-    var font = "bold 20px Kristen ITC";
+    
     if (width > 500) {
         width = 400;
         height = 600;
-        font = "bold 20px Kristen ITC";
+        var font = "bold 20px Fredoka One";
     }
 
     canvas = document.createElement('canvas');
