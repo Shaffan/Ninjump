@@ -1,40 +1,238 @@
-<!doctype html>
+<!DOCTYPE html>
 
 <html>
-
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
-    <meta name="Author" content="Stefan Horne">
-    <link href='https://fonts.googleapis.com/css?family=Fredoka+One' rel='stylesheet' type='text/css'>
-    <script src="libraries&polyfills/jquery-2.2.0.min.js"></script>
-    <script src="libraries&polyfills/rAF.js"></script>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
+    />
+    <meta name="Author" content="Stefan Horne" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Fredoka+One"
+      rel="stylesheet"
+      type="text/css"
+    />
     <style>
-        canvas {
-            display: block;
-            position: absolute;
-            margin: auto;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: #dde4e9;
-            border: 1px solid black;
-        }
+      canvas {
+        display: block;
+        position: absolute;
+        margin: auto;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #dde4e9;
+        border: 1px solid black;
+      }
     </style>
-</head>
+  </head>
 
-<body>
-</body>
-<footer>
+  <body></body>
+  <footer>
     <small>&copy 2016 Stefan Horne</small>
-</footer>
-<!-- These need to stay here -->
-<script src="app/main-app.js"></script>
-<script src="app/images.js"></script>
-<script src="app/player.js"></script>
-<script src="app/platforms.js"></script>
-<script src="app/iobjects.js"></script>
-<script src="app/helpers.js"></script>
+  </footer>
+  <!-- These need to stay here -->
+  <script type="text/javascript">
+    (function () {
+      var canvas,
+        context,
+        width,
+        height,
+        frames = 0, // This needs to be initialised
+        states = { Start: 0, Game: 1, Death: 2 },
+        gamestate = states.Start,
+        platformVelocity = 3,
+        score = 0,
+        increment = 1,
+        multiplier = 1,
+        best = localStorage.getItem("best") || 0;
+      if (isNaN(best)) best = 0;
 
+      function input(event) {
+        player.getVelocity().x = 0;
+
+        if (gamestate === states.Start && event.type !== "keyup") {
+          gamestate = states.Game;
+        } else if (gamestate === states.Death) {
+          platforms.reset();
+          iobjects.reset();
+          score = 0;
+          gamestate = states.Start;
+        }
+
+        if (event.keyCode === 37) {
+          player.move(-1, event.type);
+        } else if (event.keyCode === 38 && event.type !== "keyup") {
+          player.jump();
+        } else if (event.keyCode === 39) {
+          player.move(1, event.type);
+        }
+        // prevent scroll etc
+        event.preventDefault();
+      }
+      function run() {
+        var loop = function () {
+          update();
+          render();
+          window.requestAnimationFrame(loop);
+        };
+        window.requestAnimationFrame(loop);
+      }
+      function update() {
+        if (gamestate !== states.Death) {
+          platforms.update();
+          iobjects.update(platformVelocity, player);
+        } else {
+          best = Math.max(best, score);
+          localStorage.setItem("best", best);
+        }
+        // increment score
+        if (gamestate === states.Game && player.getVelocity().y < 0) {
+          score += increment * multiplier;
+        }
+        player.update();
+
+        frames++;
+      }
+
+      function render() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        platforms.draw(context);
+        iobjects.draw(context);
+        player.draw(context);
+
+        // Start and score text
+        // TODO: Consider moving to separate page
+        var text = null;
+        if (gamestate === states.Start) {
+          text = context.measureText("Press any button to start");
+          context.fillText(
+            "Press any button to start",
+            width / 2 - text.width / 2,
+            height / 2
+          );
+        } else if (gamestate === states.Death) {
+          context.font = "bold 12px Fredoka One";
+          score_s.draw(
+            context,
+            width / 2 - score_s.width / 2,
+            height / 3 - score_s.height / 2
+          );
+          text = context.measureText("Score: " + score + " ");
+          context.fillText(
+            "Score: " + score + " ",
+            width / 2 - text.width,
+            height / 3 + score_s.height / 3
+          );
+          context.fillText(
+            "  Best: " + best,
+            width / 2,
+            height / 3 + score_s.height / 3
+          );
+          context.font = "bold 20px Fredoka One";
+          text = context.measureText("Press any key to restart");
+          context.fillText(
+            "Press any key to restart",
+            width / 2 - text.width / 2,
+            height / 2 - 10
+          );
+        } else if ((gamestate = states.Game)) {
+          text = context.measureText(
+            score.toString() + " x" + multiplier.toString()
+          );
+          context.fillText(
+            score.toString() + " x" + multiplier.toString(),
+            width - width / 45 - text.width + 2,
+            height / 100 + 15
+          );
+        }
+      }
+
+      function start() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+
+        if (width > 500) {
+          width = 400;
+          height = 600;
+          var font = "bold 20px Fredoka One";
+        }
+
+        canvas = document.createElement("canvas");
+
+        canvas.width = width;
+        canvas.height = height;
+
+        context = canvas.getContext("2d");
+        context.font = font;
+
+        document.body.appendChild(canvas);
+
+        document.addEventListener("keyup", function (event) {
+          input(event);
+        });
+        document.addEventListener("keydown", function (event) {
+          input(event);
+        });
+
+        gamestate = states.Start;
+
+        var img = new Image();
+        img.onload = function () {
+          loadSprites(this);
+          run();
+          player.getPosition().x = width / 2 - player_s_right.width / 2;
+          player.getPosition().y = height / 2 - player_s_right.height / 2;
+        };
+        img.src = "assets/sprites.png";
+      }
+
+      function getWidth() {
+        return width;
+      }
+      function getHeight() {
+        return height;
+      }
+      function startState() {
+        return gamestate === states.Start;
+      }
+      function gameState() {
+        return gamestate === states.Game;
+      }
+      function die() {
+        gamestate = states.Death;
+      }
+      function getFrames() {
+        return frames;
+      }
+      function incrementMultiplier(incr) {
+        multiplier += incr;
+      }
+      function resetMultiplier() {
+        multiplier = 1;
+      }
+
+      window.game = {
+        start,
+        states,
+        startState,
+        gameState,
+        getWidth,
+        getHeight,
+        getFrames,
+        incrementMultiplier,
+        resetMultiplier,
+        die,
+      };
+    })();
+
+    window.game.start();
+  </script>
+  <script src="app/images.js"></script>
+  <script src="app/platforms.js"></script>
+  <script src="app/player.js"></script>
+  <script src="app/iobjects.js"></script>
+  <script src="app/helpers.js"></script>
 </html>

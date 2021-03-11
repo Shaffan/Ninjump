@@ -1,102 +1,111 @@
-var iobjects = {
-    x: 0,
-    y: 0,
+(function (game) {
+  var _iobjects = [];
 
-    _iobjects: [],
+  var _fallSpeed = 0;
 
-    velocity: 0,
+  function spawn(type, x, y, sprite) {
+    _iobjects.push(new IObject(type, x, y, sprite));
+  }
 
-    spawn: function (type, x, y) {
-        this._iobjects.push(new Iobject(x, y, type));
-    },
+  function reset() {
+    _iobjects = [];
+  }
 
-    reset: function () {
-        this._iobjects = [];
-    },
+  function update(fallSpeed, player) {
+    if (game.gameState()) {
+      _fallSpeed = fallSpeed;
 
-    update: function () {
+      if (_iobjects.length) {
+        for (i = 0, len = _iobjects.length; i < len; i++) {
+          var obj = _iobjects[i];
 
-        if (gamestate === states.Game) {
-            this.velocity = platforms.velocity;
+          obj.proximity = calcProx(obj, player, danger_s);
+          
+          if (obj.closest()) {
+            if (obj.collision(player.getPosition())) {
+              _iobjects.splice(i, 1);
+              i--;
+              len--;
 
-            if (this._iobjects.length) {
-                for (i = 0, len = this._iobjects.length; i < len; i++) {
-                    var o = this._iobjects[i];
-
-                    o.proximity = calcProx(o.x, o.y, danger_s);
-                    o.isClosest = o.closest();
-
-                    if (o.isClosest) {
-                        if (o.collision()) {
-                            this._iobjects.splice(i, 1);
-                            i--;
-                            len--;
-
-                            multiplier = o.type === 'powerup' ? multiplier + 1 : 1;
-                        }
-                    }
-
-                    o.y += this.velocity;
-                    if (o.y > height) {
-                        this._iobjects.splice(i, 1);
-                        i--;
-                        len--;
-                    }
-                }
+              if (obj.type === "powerup") game.incrementMultiplier(1);
+              else game.resetMultiplier();
             }
-        }
-    },
+          }
 
-    draw: function (context) {
-        for (i = 0, len = this._iobjects.length; i < len; i++) {
-            var o = this._iobjects[i];
-            o.type === 'powerup' ? powerup_s.draw(context, o.x, o.y) : danger_s.draw(context, o.x, o.y);
+          obj.y += _fallSpeed;
+          if (obj.y > game.getHeight()) {
+            _iobjects.splice(i, 1);
+            i--;
+            len--;
+          }
         }
+      }
     }
+  }
 
-}
+  function draw(context) {
+    for (i = 0, len = _iobjects.length; i < len; i++) {
+      var o = _iobjects[i];
+      o.sprite.draw(context, o.x, o.y);
+    }
+  }
 
-function Iobject(x, y, type) {
+  function calcProx(obj, player) {
+    var a =
+      player.getPosition().x +
+      player.getDimensions().width / 2 -
+      (obj.x + obj.width / 2);
+    var b =
+      player.getPosition().y +
+      player.getDimensions().height / 2 -
+      (obj.y + obj.height / 2);
+
+    return Math.sqrt(a * a + b * b);
+  }
+
+  function IObject(type, x, y, sprite) {
     this.x = x;
     this.y = y;
     this.type = type;
+    this.sprite = sprite;
+    this.width = sprite.width;
+    this.height = sprite.height;
     this.proximity = 0;
     this.isClosest = false;
-}
+  }
 
-Iobject.prototype.collision = function () {
+  IObject.prototype.collision = function (player) {
+    // reduce the hitbox a little
+    var leftSide = this.x + this.sprite.width / 3;
+    var rightSide = leftSide + this.sprite.width - this.sprite.width / 3;
 
-    // offset of 15 to account for player's bandana 
-    var px = player.direction > 0 ? player.x + 15 : player.x,
-        // right side of player
-        px2 = player.direction > 0 ? player.x + player_s_right.width : player.x + player_s_right.width - 15,
+    var bottomSide = this.y + this.sprite.height;
 
-        // player feet
-        py = player.y + player_s_left.height,
-        py2 = player.y + player_s_right.height + player.yvelocity,
-
-        objx2 = this.x + powerup_s.width,
-        objy2 = this.y + powerup_s.height;
-
-    px -= player.xvelocity;
-    px2 += player.xvelocity;
-
-    px += player.sprite.width / 4;
-    px2 -= player.sprite.width / 4;
-
-    py += player.sprite.height / 4;
-    py2 -= player.sprite.height / 4;
-
-    if (((px > this.x && px < objx2) || (px2 > this.x && px2 < objx2)) && ((py > this.y && py < objy2) || (py2 >= this.y && py2 <= objy2))) {
-        return true;
+    if (
+      ((player.left > leftSide && player.left < rightSide) ||
+        (player.right > leftSide && player.right < rightSide)) &&
+      ((player.top > this.y && player.top < bottomSide) ||
+        (player.bottom >= this.y && player.bottom <= bottomSide))
+    ) {
+      return true;
     }
-}
+  };
 
-Iobject.prototype.closest = function () {
-
-    var minprox = Math.min.apply(Math, iobjects._iobjects.map(function (obj) {
+  IObject.prototype.closest = function () {
+    var minprox = Math.min.apply(
+      Math,
+      _iobjects.map(function (obj) {
         return obj.proximity;
-    }));
+      })
+    );
 
     return this.proximity === minprox;
-};
+  };
+
+  window.iobjects = {
+    update,
+    reset,
+    draw,
+    spawn
+  };
+})(window.game);
